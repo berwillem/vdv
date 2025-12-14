@@ -1,0 +1,100 @@
+/* about.css */
+
+/* Import Poppins from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.about-container {
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: "Poppins", sans-serif; /* Police Poppins appliquée globalement */
+}
+
+ul {
+  list-style: none;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  background-image: url("https://via.placeholder.com/1920x800?text=Montagnes+et+Randonneurs");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.breadcrumb {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.breadcrumb span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #e5e7eb;
+  color: #4b5563;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 700; /* Bold pour le titre principal */
+  margin-bottom: 3rem;
+  color: #1f2937;
+}
+
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  line-height: 1.8;
+  color: #575757;
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #ff123d; /* red-700 */
+  margin-bottom: 1.5rem;
+}
+
+.section-title-uppercase {
+  text-transform: uppercase;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ol {
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+ol li {
+  margin-bottom: 1.5rem;
+}
+
+ol li strong {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.vision {
+  font-style: italic;
+  margin: 2rem 0;
+}

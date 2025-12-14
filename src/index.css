@@ -1,0 +1,91 @@
+/* src/index.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* === 1. Reset & Base === */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  color: #151936;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === 2. Color Palette (CSS Custom Properties) === */
+:root {
+  --color-main-text: #151936; /* Primary text */
+  --color-secondary-text: #575757; /* Secondary text, labels, etc. */
+  --color-secondary: #ff123d; /* Accents, buttons, links */
+  --color-background: #ffffff; /* Page background */
+  --color-inactive: #e4e4e4; /* Borders, disabled states */
+}
+
+/* === 3. Typography Defaults === */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-main-text);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p,
+span,
+li,
+a,
+input,
+textarea,
+button {
+  color: var(--color-main-text);
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+/* === 4. Utility Classes (optional but handy) === */
+.text-main {
+  color: var(--color-main-text);
+}
+.text-secondary {
+  color: var(--color-secondary-text);
+}
+.text-accent {
+  color: var(--color-secondary);
+}
+.bg-white {
+  background-color: var(--color-background);
+}
+.inactive {
+  color: var(--color-inactive);
+}
+
+/* === 5. Focus styles for accessibility === */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}

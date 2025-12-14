@@ -1,0 +1,241 @@
+/* src/pages/Contact/Contact.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.contact-container {
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: "Poppins", sans-serif;
+  color: #374151;
+}
+
+/* Hero with overlay */
+.contact-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  background-image: url("https://images.pexels.com/photos/307008/pexels-photo-307008.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  max-width: 800px;
+  color: #fff;
+}
+
+/* Tabs with underline indicator */
+.contact-tabs {
+  display: flex;
+  justify-content: center;
+  margin: 4rem auto 3rem;
+  max-width: 600px;
+  position: relative;
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #e4e4e4;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.tab-btn.active {
+  color: #1e293b;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 4px;
+  background-color: #ff123d;
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.tab-indicator.b2c {
+  transform: translateX(0);
+}
+
+.tab-indicator.b2b {
+  transform: translateX(100%);
+}
+
+/* Content */
+.contact-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.contact-form-wrapper {
+  background: white;
+  padding: 3rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  max-width: 550px;
+  border: 1px solid #e4e4e4;
+}
+
+.form-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.form-subtitle {
+  color: #6b7280;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.8rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 1rem;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ff123d;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.submit-btn {
+  width: 100%;
+  background-color: #1e293b;
+  color: white;
+  padding: 1.1rem;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #ff123d;
+}
+
+/* Info Cards */
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  background: rgb(255, 255, 255);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  border: 1px solid #e4e4e4;
+}
+
+.info-card h3 {
+  color: #ff123d;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.info-card p {
+  color: #374151;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-left: -10px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .hero-title {
+    font-size: 2.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .contact-tabs {
+    margin: 3rem auto 2rem;
+  }
+}

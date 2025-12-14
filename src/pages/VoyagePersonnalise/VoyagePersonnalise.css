@@ -1,0 +1,322 @@
+/* src/pages/VoyagePersonnalise/VoyagePersonnalise.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.vp-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  color: #374151;
+  overflow-x: hidden;
+}
+
+/* Content Card */
+.vp-content {
+  margin-top: 14vh !important;
+  max-width: 900px;
+  margin: -12rem auto 6rem;
+  padding: 3rem;
+  border-radius: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* Progress */
+.progress-container {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #e5e7eb;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(to right, #e60000, #ff0000);
+  transition: width 0.6s ease;
+}
+
+.progress-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Step Card */
+.step-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.step-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.step-group {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.step-group input,
+.step-group select {
+  width: 100%;
+  padding: 1.2rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 1.5rem;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.step-group input:focus,
+.step-group select:focus {
+  outline: none;
+  border-color: #ff123d;
+  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.1);
+}
+
+/* Buttons */
+.step-buttons {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  justify-content: center;
+}
+
+.prev-btn,
+.next-btn,
+.submit-btn {
+  padding: 1.2rem 2.5rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.prev-btn {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.prev-btn:hover {
+  background-color: #d1d5db;
+}
+
+.next-btn,
+.submit-btn {
+  background-color: #1e293b;
+  color: white;
+}
+
+.next-btn:hover,
+.submit-btn:hover {
+  background-color: #ff123d;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(185, 28, 28, 0.3);
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Confetti full-page container */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  top: -50px;
+  font-size: 40px;
+  animation: fall linear forwards;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px)) rotate(1080deg);
+    opacity: 0;
+  }
+}
+
+/* Écran de confirmation */
+.confirmation-card {
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.confirmation-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-message {
+  font-size: 1.4rem;
+  color: #4b5563;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+}
+
+.contact-summary {
+  background: #f8f8f8;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.contact-summary h3 {
+  color: #ff123d;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.contact-summary ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-summary li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.1rem;
+}
+
+.contact-summary li:last-child {
+  border-bottom: none;
+}
+
+.contact-summary strong {
+  color: #1f2937;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.home-btn,
+.new-btn {
+  padding: 1.2rem 2.5rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.home-btn {
+  background-color: #1e293b;
+  color: white;
+}
+
+.home-btn:hover {
+  background-color: #0f172a;
+}
+
+.new-btn {
+  background-color: #ff123d;
+  color: white;
+}
+
+.new-btn:hover {
+  background-color: rgb(255, 22, 22);
+}
+
+.contact-info-final {
+  background: #f8f8f8;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  font-size: 1.1rem;
+  color: #4b5563;
+}
+
+.contact-info-final p {
+  margin: 0.75rem 0;
+}
+
+.contact-info-final strong {
+  color: #1f2937;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vp-hero {
+    height: 70vh;
+  }
+  .hero-title {
+    font-size: 3rem;
+  }
+  .hero-subtitle {
+    font-size: 1.4rem;
+  }
+  .vp-content {
+    margin: -8rem 1rem 4rem;
+    padding: 2rem;
+  }
+  .step-title {
+    font-size: 1.8rem;
+  }
+  .step-buttons {
+    flex-direction: column;
+  }
+  .confirmation-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-home-btn {
+    top: 15px;
+    left: 15px;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+}

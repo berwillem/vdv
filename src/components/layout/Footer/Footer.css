@@ -1,0 +1,178 @@
+/* FOOTER */
+.footer {
+  margin-top: 150px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* CTA Banner */
+.footer-cta {
+  width: 80%;
+  position: relative;
+  height: 60vh;
+  border-radius: 24px;
+  overflow: hidden;
+  margin: 0 20px;
+  border: 1px solid #e4e4e4;
+}
+
+.footer-cta img {
+  filter: brightness(80%);
+}
+
+.footer-cta-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.footer-cta-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.footer-cta-content h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.footer-cta-content p {
+  font-size: 0.8rem;
+  margin-bottom: 32px;
+  opacity: 0.95;
+  line-height: 1.6;
+  color: white;
+}
+
+.footer-cta-btn {
+  padding: 16px 40px;
+  background: #151936;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer-cta-btn:hover {
+  background: #000c45;
+  border-radius: 8px;
+  scale: 1.1;
+}
+
+/* Main Footer */
+.footer-main {
+  padding: 100px 20px 40px;
+  background: white;
+}
+
+.footer-main-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+}
+
+.footer-brand {
+  max-width: 400px;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #151936;
+  margin-bottom: 20px;
+}
+
+.footer-logo span {
+  color: #ff6b6b;
+}
+
+.footer-brand p {
+  color: #64748b;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.footer-column h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 14px;
+}
+
+.footer-column a {
+  color: #475569;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #151936;
+}
+
+/* Bottom */
+.footer-bottom {
+  text-align: center;
+  padding-top: 60px;
+  margin-top: 80px;
+  border-top: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .footer-main-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+  }
+  .footer-cta-content h2 {
+    font-size: 2.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-cta {
+    height: 600px;
+  }
+  .footer-cta-content {
+    padding: 40px 20px;
+  }
+  .footer-cta-content h2 {
+    font-size: 2.2rem;
+  }
+  .footer-main-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .footer-brand {
+    max-width: 100%;
+  }
+}
