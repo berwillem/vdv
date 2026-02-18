@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "trips": "Nos voyages",
+    "customTrip": "Voyage personnalisé",
+    "contact": "Contact"
+  },
+  "auth": {
+    "profile": "Profil",
+    "signin": "Se connecter"
+  },
+  "common": {
+    "language": "Langue"
+  }
+}

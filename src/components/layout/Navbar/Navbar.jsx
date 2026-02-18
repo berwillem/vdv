@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next"; // 1. Import du hook
 import {
   HiOutlineMenuAlt3,
   HiOutlineX,
@@ -9,38 +10,42 @@ import LOGO from "../../../assets/logo.png";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const { t, i18n } = useTranslation(); // 2. Initialisation de t et i18n
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
 
-  // Change this later with real auth
   const isLoggedIn = false;
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const closeDrawer = () => setIsDrawerOpen(false);
 
+  // 3. Fonction pour changer la langue proprement
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setIsLangOpen(false); // Ferme le dropdown après sélection
+  };
+
+  // 4. On utilise les clés du JSON pour les liens
   const navLinks = [
-    { name: "Accueil", path: "/" },
-    { name: "À propos", path: "/a-propos" },
-    { name: "Nos voyages", path: "/nos-voyages" },
-    { name: "Voyage personnalisé", path: "/voyage-personnalise" },
-    { name: "Contact", path: "/contact" },
+    { name: t("nav.home"), path: "/" },
+    { name: t("nav.about"), path: "/a-propos" },
+    { name: t("nav.trips"), path: "/nos-voyages" },
+    { name: t("nav.customTrip"), path: "/voyage-personnalise" },
+    { name: t("nav.contact"), path: "/contact" },
   ];
 
   return (
     <>
-      {/* Desktop & Mobile Navbar */}
       <nav className="navbar">
         <div className="navbar-container">
-          {/* Logo */}
           <Link to="/" className="logo-container">
-            <img src={LOGO} className="navbar-logo" alt="Village des Voyage" />
+            <img src={LOGO} className="navbar-logo" alt="Logo" />
           </Link>
 
-          {/* Desktop Links */}
           <div className="navbar-links-desktop">
             {navLinks.map((link) => (
               <NavLink
-                key={link.name}
+                key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
                   isActive ? "navbar-link active" : "navbar-link"
@@ -51,9 +56,8 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right side - Desktop */}
           <div className="navbar-right-desktop">
-            {/* Language Selector */}
+            {/* Language Selector Desktop */}
             <div className="navbar-lang">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
@@ -63,25 +67,24 @@ const Navbar = () => {
               </button>
               {isLangOpen && (
                 <div className="navbar-lang-dropdown">
-                  <button className="lang-item active">FR</button>
-                  <button className="lang-item">EN</button>
-                  <button className="lang-item">AR</button>
+                  <button onClick={() => changeLanguage('fr')} className={`lang-item ${i18n.language === 'fr' ? 'active' : ''}`}>FR</button>
+                  <button onClick={() => changeLanguage('en')} className={`lang-item ${i18n.language === 'en' ? 'active' : ''}`}>EN</button>
+                  <button onClick={() => changeLanguage('ar')} className={`lang-item ${i18n.language === 'ar' ? 'active' : ''}`}>AR</button>
                 </div>
               )}
             </div>
 
             {isLoggedIn ? (
               <NavLink to="/profile" className="navbar-auth-btn">
-                Profil
+                {t("auth.profile")}
               </NavLink>
             ) : (
               <NavLink to="/signin" className="navbar-auth-btn">
-                Se connecter
+                {t("auth.signin")}
               </NavLink>
             )}
           </div>
 
-          {/* Mobile Burger */}
           <button onClick={toggleDrawer} className="navbar-burger">
             <HiOutlineMenuAlt3 size={20} />
           </button>
@@ -101,7 +104,7 @@ const Navbar = () => {
 
               {navLinks.map((link) => (
                 <NavLink
-                  key={link.name}
+                  key={link.path}
                   to={link.path}
                   className={({ isActive }) =>
                     isActive ? "drawer-link active" : "drawer-link"
@@ -112,35 +115,25 @@ const Navbar = () => {
                 </NavLink>
               ))}
 
-              {/* Language in drawer */}
               <div className="drawer-lang">
                 <p className="drawer-lang-title">
-                  <HiOutlineGlobeAlt size={20} /> Langue
+                  <HiOutlineGlobeAlt size={20} /> {t("common.language")}
                 </p>
                 <div className="drawer-lang-options">
-                  <button className="lang-btn active">Français</button>
-                  <button className="lang-btn">English</button>
-                  <button className="lang-btn">العربية</button>
+                  <button onClick={() => changeLanguage('fr')} className={`lang-btn ${i18n.language === 'fr' ? 'active' : ''}`}>Français</button>
+                  <button onClick={() => changeLanguage('en')} className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}>English</button>
+                  <button onClick={() => changeLanguage('ar')} className={`lang-btn ${i18n.language === 'ar' ? 'active' : ''}`}>العربية</button>
                 </div>
               </div>
 
-              {/* Auth button in drawer */}
               <div className="drawer-auth">
                 {isLoggedIn ? (
-                  <NavLink
-                    to="/profile"
-                    className="drawer-profile-btn"
-                    onClick={closeDrawer}
-                  >
-                    Profil
+                  <NavLink to="/profile" className="drawer-profile-btn" onClick={closeDrawer}>
+                    {t("auth.profile")}
                   </NavLink>
                 ) : (
-                  <NavLink
-                    to="/signin"
-                    className="drawer-signin-btn"
-                    onClick={closeDrawer}
-                  >
-                    Se connecter
+                  <NavLink to="/signin" className="drawer-signin-btn" onClick={closeDrawer}>
+                    {t("auth.signin")}
                   </NavLink>
                 )}
               </div>

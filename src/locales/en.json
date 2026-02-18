@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "trips": "Our Trips",
+    "customTrip": "Custom Trip",
+    "contact": "Contact"
+  },
+  "auth": {
+    "profile": "Profile",
+    "signin": "Sign In"
+  },
+  "common": {
+    "language": "Language"
+  }
+}
