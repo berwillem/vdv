@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next"; // 1. Import du hook
+import { useTranslation } from "react-i18next"; 
 import {
   HiOutlineMenuAlt3,
   HiOutlineX,
