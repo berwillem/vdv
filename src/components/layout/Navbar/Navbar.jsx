@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import { useState } from "react";
 import {
   HiOutlineMenuAlt3,
@@ -23,6 +24,7 @@ const Navbar = () => {
     { name: "À propos", path: "/a-propos" },
     { name: "Nos voyages", path: "/nos-voyages" },
     { name: "Voyage personnalisé", path: "/voyage-personnalise" },
+    { name: "Entreprise", path: "/entreprise" }, // ← NEW
     { name: "Contact", path: "/contact" },
   ];
 

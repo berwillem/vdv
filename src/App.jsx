@@ -12,6 +12,7 @@ import Contact from "./pages/Contact/Contact.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import SignIn from "./pages/Auth/SignIn/SignIn.jsx";
 import Register from "./pages/Auth/Register/Register.jsx";
+import Entreprise from "./pages/Entreprise/Entreprise.jsx";
 
 function App() {
   return (
@@ -20,9 +21,12 @@ function App() {
         {/* Public routes with Layout (Navbar + Footer) */}
         <Route element={<Layout />}>
           <Route path="/" element={<Accueil />} />
+
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/nos-voyages" element={<NosVoyages />} />
           <Route path="/voyage-personnalise" element={<VoyagePersonnalise />} />
+          <Route path="/entreprise" element={<Entreprise />} />
+
           <Route path="/contact" element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
