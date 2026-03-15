@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next"; 
 import {
@@ -31,6 +32,7 @@ const Navbar = () => {
     { name: t("nav.about"), path: "/a-propos" },
     { name: t("nav.trips"), path: "/nos-voyages" },
     { name: t("nav.customTrip"), path: "/voyage-personnalise" },
+    { name: "Entreprise", path: "/entreprise" }, // ← NEW
     { name: t("nav.contact"), path: "/contact" },
   ];
 
