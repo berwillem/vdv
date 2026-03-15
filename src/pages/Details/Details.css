@@ -1,0 +1,232 @@
+/* TravelPage.css */
+/* Styles pour le nouveau Header */
+.page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px; /* Ajuste le padding selon ton besoin */
+}
+
+.header-top {
+  margin-bottom: 25px;
+  padding: 0 20px;
+  margin-top: 100px;
+}
+
+.main-title {
+  font-weight: 600;
+
+  font-size: 48px;
+  margin: 0 0 15px 0;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.categories-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: rgba(228, 228, 228, 1);
+
+  color: rgba(126, 126, 126, 1);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 8px;
+
+  border: 0.7px solid rgba(126, 126, 126, 1);
+}
+
+/* Modifie ton .container pour enlever le gros padding-top s'il n'est plus nécessaire */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  display: flex;
+  gap: 30px;
+}
+
+/* Colonne Gauche */
+.content-main {
+  flex: 2;
+}
+
+.main-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.thumbnail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.thumbnail-grid img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.description h2,
+.availability h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.description p {
+  color: #666;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.main-price {
+  font-size: 28px;
+  font-weight: 800;
+  color: #e91e63;
+  margin-top: 20px;
+}
+
+/* Section Disponibilité */
+.availability-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #eee;
+}
+
+.transport-tag {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 10px;
+}
+.date-row hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #eee;
+}
+.selction-info {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.selction-info button {
+  border: 1px solid rgba(78, 78, 78, 0.2);
+  color: rgba(78, 78, 78, 0.2);
+  border-radius: 200px;
+  padding: 5px 10px;
+  font-family: Poppins;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 9.45px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+.card-date {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.date-info span {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.date-info strong {
+  font-size: 14px;
+}
+
+/* Colonne Droite (Sidebar) */
+.sidebar {
+  flex: 1;
+}
+
+.reservation-box {
+  position: sticky;
+  top: 100px;
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+
+  border: 1px solid #eee;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding-left: 50px;
+  color: rgba(126, 126, 126, 1);
+}
+.input-container {
+  position: relative;
+}
+.input-container svg {
+  position: absolute;
+  left: 10px;
+  height: 100%;
+  border-right: 1px solid #ddd;
+  padding-right: 10px;
+  width: 30px;
+  color: rgba(126, 126, 126, 1);
+}
+.btn-check {
+  width: 100%;
+  background: #1a1c3d;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
