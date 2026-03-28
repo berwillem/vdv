@@ -1,47 +1,105 @@
-// src/pages/Auth/Login/Login.jsx
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./SignIn.css";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
+  const [identifier, setIdentifier] = useState(""); // Email ou Username
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  
   const [showForgot, setShowForgot] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
 
-  const handleForgotSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    alert(`Reset link sent to ${resetEmail}`);
-    setShowForgot(false);
-    setResetEmail("");
+    setLoading(true);
+    setError("");
+
+    try {
+      // Strapi utilise 'identifier' pour l'email ou le username
+      const response = await axios.post("http://localhost:1337/api/auth/local", {
+        identifier: identifier,
+        password: password,
+      });
+
+      // Sauvegarde du JWT et des infos utilisateur
+      localStorage.setItem("jwt", response.data.jwt);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      navigate("/"); // Redirection vers l'accueil
+    } catch (err) {
+      console.error("Erreur de connexion:", err.response);
+      setError(
+        err.response?.data?.error?.message === "Invalid identifier or password"
+          ? "Email ou mot de passe incorrect."
+          : "Une erreur est survenue."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:1337/api/auth/forgot-password", {
+        email: resetEmail,
+      });
+      alert(`Un lien de réinitialisation a été envoyé à ${resetEmail}`);
+      setShowForgot(false);
+      setResetEmail("");
+    } catch (err) {
+      alert("Erreur lors de l'envoi de l'email.");
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:1337/api/connect/google";
   };
 
   return (
     <div className="login-container">
-      <button
-        className="back-home-btn"
-        onClick={() => (window.location.href = "/")}
-      >
+      <button className="back-home-btn" onClick={() => navigate("/")}>
         <FaArrowLeft />
       </button>
-      {/* Background Hero */}
+
       <div className="login-hero" />
 
-      {/* Login Card */}
       <div className="login-card">
         <h1 className="login-title">Bienvenue</h1>
         <p className="login-subtitle">
           Connectez-vous à votre compte Village de Voyage
         </p>
 
-        <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+        {error && <p className="error-banner">{error}</p>}
+
+        <form className="login-form" onSubmit={handleLogin}>
           <div className="form-group">
             <label>Email</label>
-            <input type="email" placeholder="votre@email.com" required />
+            <input
+              type="email"
+              placeholder="votre@email.com"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              required
+            />
           </div>
 
           <div className="form-group">
             <label>Mot de passe</label>
-            <input type="password" placeholder="••••••••" required />
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
 
           <div className="forgot-link">
@@ -54,20 +112,24 @@ const Login = () => {
             </button>
           </div>
 
-          <button type="submit" className="submit-btn">
-            Se connecter
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Connexion..." : "Se connecter"}
+          </button>
+
+          <div className="separator"><span>ou</span></div>
+
+          <button type="button" className="google-btn" onClick={handleGoogleLogin}>
+            <FcGoogle className="google-icon" />
+            Continuer avec Google
           </button>
         </form>
 
         <p className="signup-text">
           Pas de compte ?{" "}
-          <a href="/register" className="link-btn">
-            Inscrivez-vous
-          </a>
+          <a href="/register" className="link-btn">Inscrivez-vous</a>
         </p>
       </div>
 
-      {/* Forgot Password Modal */}
       {showForgot && (
         <div className="modal-overlay" onClick={() => setShowForgot(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>

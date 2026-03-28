@@ -60,9 +60,7 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  opacity: 0.85;
-}
+
 
 /* === 4. Utility Classes (optional but handy) === */
 .text-main {

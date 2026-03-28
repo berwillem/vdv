@@ -1,0 +1,71 @@
+.complete-profile-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+}
+
+.complete-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+.form-group, .form-group-static {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.form-group label, .form-group-static label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.form-group input, .form-group-static input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+.form-group-static input {
+  background: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1a1c3d; /* Ta couleur bleu foncé */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #2a2d5d;
+}
+
+.submit-btn:disabled {
+  background: #ccc;
+}

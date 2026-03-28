@@ -1,115 +1,19 @@
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { MapPin, Users, Calendar, Euro } from "lucide-react";
-import { useState } from "react";
+import "./Accueil.css";
+
+// ASSETS
 import Discount from "../../assets/images/discount.png";
 import HeroV from "../../assets/images/HeroV.mp4";
 
-// ANIMATION
+// SERVICES
+import { GetVoyage } from "../../services/voyages";
+import { Perso } from "../../services/perso";
 
-import "./Accueil.css";
+const STRAPI_URL = "http://localhost:1337";
 
-// DESTINATIONS DATA (unchanged)
-const destinations = [
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    name: "Bracelet d'Argent",
-    description: "Located in the heart of the Djurdjura Mountains...",
-    price: "DZD 8.500,00",
-    image:
-      "https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=800&auto=format&fit=crop",
-  },
-];
-
-// FAQ DATA
-const faqs = [
-  {
-    question: "Comment puis-je réserver un voyage ?",
-    answer:
-      "Vous pouvez réserver directement sur notre site, via notre formulaire de réservation, ou en nous contactant par téléphone ou WhatsApp. Un conseiller vous accompagne dans chaque étape.",
-  },
-  {
-    question: "Dois-je payer la totalité du voyage à la réservation ?",
-    answer:
-      "Non, un acompte de 30% suffit pour bloquer votre voyage. Le solde est à régler 30 jours avant le départ.",
-  },
-  {
-    question: "Qu'est-ce qu'un voyage organisé ?",
-    answer:
-      "Un voyage organisé inclut vols, hébergements, transferts, repas et activités guidées. Tout est pris en charge pour vous offrir une expérience sans stress.",
-  },
-  {
-    question: "Qu'est-ce qu'un voyage personnalisé ?",
-    answer:
-      "C’est un voyage conçu sur mesure selon vos envies : destinations, rythme, budget, activités exclusives… Vous rêvez, nous réalisons.",
-  },
-  {
-    question: "Les voyages personnalisés coûtent-ils plus cher ?",
-    answer:
-      "Pas forcément ! Grâce à nos partenariats locaux, nous proposons souvent des tarifs plus avantageux que les circuits classiques.",
-  },
-  {
-    question:
-      "Proposez-vous des voyages pour groupes privés (familles, entreprises) ?",
-    answer:
-      "Oui ! Mariages, séminaires, incentives, anniversaires… nous créons des expériences uniques pour tous les groupes.",
-  },
-];
-
-// FAQ ITEM COMPONENT
+// --- COMPOSANT FAQ ITEM ---
 const FAQItem = ({ question, answer, isOpen, onToggle }) => {
   return (
     <div className={`faq-item ${isOpen ? "open" : ""}`}>
@@ -117,17 +21,10 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => {
         <span className="question-text">{question}</span>
         <span className={`faq-icon ${isOpen ? "rotated" : ""}`}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M6 9L12 15L18 9"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
       </button>
-
       <div className="faq-answer-wrapper">
         <div className="faq-answer">
           <p>{answer}</p>
@@ -136,46 +33,115 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => {
     </div>
   );
 };
+
 const Accueil = () => {
-  // ALWAYS ONE FAQ OPEN — starts with first one
+  // --- ÉTATS ---
   const [openFAQIndex, setOpenFAQIndex] = useState(0);
+  const [destinations, setDestinations] = useState([]);
+  
+  // Pagination : on affiche 6 au début
+  const [visibleCount, setVisibleCount] = useState(10);
+
+  // Formulaire Perso Trip
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    Destination: "",
+    nbr: 1,
+    date: "",
+    budget: ""
+  });
+
+  // --- DATA FETCHING ---
+  useEffect(() => {
+    GetVoyage()
+      .then((res) => {
+        setDestinations(res.data.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching voyages:", err);
+      });
+  }, []);
+
+  // --- HANDLERS ---
+  const handlePersoSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const token = localStorage.getItem("jwt");
+      if (!token) {
+        alert("Veuillez vous connecter pour envoyer une demande personnalisée.");
+        return;
+      }
+
+      // Appel de ton service Perso
+      await Perso(formData, null, token);
+      
+      alert("Demande envoyée avec succès !");
+      // Reset du formulaire
+      setFormData({ Destination: "", nbr: 1, date: "", budget: "" });
+    } catch (err) {
+      console.error("Erreur envoi Perso:", err);
+      alert("Une erreur est survenue lors de l'envoi.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const loadMore = () => {
+    setVisibleCount((prev) => prev + 3);
+  };
+
+  const faqs = [
+    { question: "Comment puis-je réserver un voyage ?", answer: "Vous pouvez réserver directement sur notre site..." },
+    { question: "Dois-je payer la totalité ?", answer: "Non, un acompte de 30% suffit..." },
+    { question: "Qu'est-ce qu'un voyage personnalisé ?", answer: "C’est un voyage conçu sur mesure selon vos envies..." }
+  ];
+
   return (
     <>
       {/* HERO + PERSONALISED FORM */}
       <section className="hero-form-section">
         <div className="hero-wrapper">
-          <video src={HeroV} className="hero-bg" autoPlay loop></video>
+          <video src={HeroV} className="hero-bg" autoPlay loop muted></video>
           <div className="form-card">
             <h2 className="form-title">Voyage personnalisé</h2>
 
-            <form className="custom-form">
+            <form className="custom-form" onSubmit={handlePersoSubmit}>
               <div className="form-row">
                 <div className="input-wrapper">
                   <label>Destination</label>
                   <div className="input-with-icon">
                     <MapPin size={18} />
-                    <input type="text" placeholder="Où voulez-vous aller ?" />
+                    <input 
+                      type="text" 
+                      placeholder="Où voulez-vous aller ?" 
+                      value={formData.Destination}
+                      onChange={(e) => setFormData({...formData, Destination: e.target.value})}
+                      required
+                    />
                   </div>
                 </div>
                 <div className="input-wrapper">
-                  <label>Nombre de personne</label>
+                  <label>Nombre de personnes</label>
                   <div className="input-with-icon">
                     <Users size={18} />
-                    <input type="number" placeholder="1" min="1" />
+                    <input 
+                      type="number" 
+                      value={formData.nbr}
+                      onChange={(e) => setFormData({...formData, nbr: e.target.value})}
+                    />
                   </div>
                 </div>
                 <div className="input-wrapper">
-                  <label>Date de départ</label>
+                  <label>Date souhaitée</label>
                   <div className="input-with-icon">
                     <Calendar size={18} />
-                    <input type="date" />
-                  </div>
-                </div>
-                <div className="input-wrapper">
-                  <label>Date de retour</label>
-                  <div className="input-with-icon">
-                    <Calendar size={18} />
-                    <input type="date" />
+                    <input 
+                      type="date" 
+                      value={formData.date}
+                      onChange={(e) => setFormData({...formData, date: e.target.value})}
+                    />
                   </div>
                 </div>
               </div>
@@ -184,12 +150,17 @@ const Accueil = () => {
                   <label>Budget par personne</label>
                   <div className="input-with-icon">
                     <Euro size={18} />
-                    <input type="number" placeholder="15.000,00 DZD" />
+                    <input 
+                      type="number" 
+                      placeholder="Budget en DZD" 
+                      value={formData.budget}
+                      onChange={(e) => setFormData({...formData, budget: e.target.value})}
+                    />
                   </div>
                 </div>
                 <div className="submit-wrapper">
-                  <button type="submit" className="submit-button">
-                    Envoyé votre demande
+                  <button type="submit" className="submit-button" disabled={isSubmitting}>
+                    {isSubmitting ? "Envoi en cours..." : "Envoyer votre demande"}
                   </button>
                 </div>
               </div>
@@ -198,36 +169,37 @@ const Accueil = () => {
         </div>
       </section>
 
-      {/* MEILLEURES OFFRES */}
-      <section className="offers-section">
-        {" "}
-        {/* ... votre section offres ... */}{" "}
-      </section>
-
-      {/* DESTINATIONS POPULAIRES */}
+      {/* DESTINATIONS POPULAIRES (PAGINATION ICI) */}
       <section className="destinations-section">
         <div className="destinations-container">
           <div className="destinations-header">
             <span className="section-badge">Une sélection de voyage</span>
             <h2 className="section-title">Destination populaire</h2>
           </div>
+          
           <div className="destinations-grid">
-            {destinations.map((dest, i) => (
-              <div key={i} className="destination-card">
+            {/* On slice le tableau pour n'afficher que visibleCount éléments */}
+            {destinations.slice(0, visibleCount).map((dest, i) => (
+              <Link to={`/details/${dest.documentId}`} key={i} className="destination-card">
                 <div className="card-image">
-                  <img src={dest.image} alt={dest.name} />
+                  {/* Sécurité sur l'image index 0 */}
+                  <img src={dest.image?.[0] ? `${STRAPI_URL}${dest.image[0].url}` : "https://via.placeholder.com/400"} alt={dest.name} />
                 </div>
                 <div className="card-content">
                   <h3>{dest.name}</h3>
-                  <p>{dest.description}</p>
-                  <span className="price">{dest.price}</span>
+                  <p>{dest.description?.substring(0, 80)}...</p>
+                  <span className="price">{dest.price?.toLocaleString()} DA</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
-          <div className="voir-plus-wrapper">
-            <button className="voir-plus-btn">Voir plus</button>
-          </div>
+
+          {/* Bouton Voir Plus s'il reste des éléments */}
+          {visibleCount < destinations.length && (
+            <div className="voir-plus-wrapper">
+              <button className="voir-plus-btn" onClick={loadMore}>Voir plus</button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -235,31 +207,22 @@ const Accueil = () => {
       <section className="family-promo-section">
         <div className="family-promo-container">
           <div className="family-content">
-            <h2 className="family-title">
-              Des réductions sur les
-              <br />
-              voyages en famille
-            </h2>
+            <h2 className="family-title">Des réductions sur les <br /> voyages en famille</h2>
             <button className="family-cta">Découvrez dès maintenant</button>
           </div>
           <div className="family-image-wrapper">
-            <img
-              src={Discount}
-              alt="Famille dans le désert"
-              className="family-image"
-            />
+            <img src={Discount} alt="Promo" className="family-image" />
           </div>
         </div>
       </section>
 
-      {/* FAQ SECTION — PERFECTLY FIXED */}
+      {/* FAQ SECTION */}
       <section className="faq-section">
         <div className="faq-container">
           <div className="faq-header">
             <span className="faq-badge">FAQs</span>
             <h2 className="faq-title">Questions fréquemment posées</h2>
           </div>
-
           <div className="faq-list">
             {faqs.map((item, index) => (
               <FAQItem

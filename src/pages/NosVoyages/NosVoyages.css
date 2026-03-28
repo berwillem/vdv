@@ -31,50 +31,59 @@
   margin: 0 auto;
   padding: 2rem 1.5rem;
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 3rem;
+ 
   margin-top: -10rem;
   position: relative;
   z-index: 10;
+  grid-template-columns: 280px 1fr; /* Réduit de 340px à 280px */
+  gap: 2rem; /* Réduit de 3rem */
 }
 
 /* Sticky Filters (Desktop) */
+/* Modifiez cette section dans votre CSS */
 .filters-card {
   background: white;
-  padding: 2rem;
+  padding: 1.25rem; /* Réduit de 2rem à 1.25rem */
   border-radius: 1.5rem;
   height: fit-content;
   position: sticky;
-  top: 120px;
+  top: 100px; /* Un peu plus haut pour gagner de l'espace */
   align-self: start;
   border: 1px solid #e4e4e4;
+  
+  /* --- AJOUTS POUR LA TAILLE --- */
+  max-height: calc(100vh - 100px); /* Empêche de dépasser de l'écran */
+ 
 }
 
 .filters-title {
-  font-size: 1.5rem;
+
   font-weight: 600;
   color: #1f2937;
-  margin-bottom: 1.5rem;
+
+  font-size: 0.9rem; /* Un peu plus petit */
+  margin-bottom: 0.75rem;
 }
 
 .filter-group {
-  margin-bottom: 1.5rem;
+margin-bottom: 0.75rem; /* Réduit de 1rem */
 }
 
 .filter-label {
   display: block;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+font-size: 0.85rem; /* Plus compact */
+  margin-bottom: 0.3rem;
   color: #374151;
 }
 
 .filter-input,
 .filter-select {
   width: 100%;
-  padding: 0.75rem 1rem;
+padding: 0.6rem 0.8rem; /* Réduit de 0.75rem */
   border: 1px solid #d1d5db;
   border-radius: 0.75rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .filter-range {
@@ -121,6 +130,8 @@
   transition: transform 0.3s;
   border: 1px solid #e4e4e4;
   cursor: pointer;
+  z-index: 4;
+  position: relative;
 }
 
 .trip-card:hover {
@@ -316,9 +327,9 @@
   text-align: center;
   font-weight: 600;
   color: #1e293b;
-  margin-top: 0.75rem;
-  font-size: 1.1rem;
-  padding: 0.5rem;
+margin-top: 0.5rem;
+  font-size: 0.95rem; /* Réduit de 1.1rem */
+  padding: 0.3rem;
   background-color: #f1f5f9;
   border-radius: 0.75rem;
 }

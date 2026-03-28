@@ -150,6 +150,7 @@
   border-radius: 1rem;
   font-size: 1rem;
   transition: border 0.3s;
+  color: #1e293b !important;
 }
 
 .form-group input:focus,
@@ -160,6 +161,7 @@
 
 .form-group textarea {
   resize: vertical;
+  color: #1e293b !important;
 }
 
 .submit-btn {

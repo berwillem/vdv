@@ -14,6 +14,8 @@ import SignIn from "./pages/Auth/SignIn/SignIn.jsx";
 import Register from "./pages/Auth/Register/Register.jsx";
 import Entreprise from "./pages/Entreprise/Entreprise.jsx";
 import Details from "./pages/Details/Details.jsx";
+import GoogleCallback from "./pages/Auth/GoogleCallback/GoogleCallback.jsx";
+import CompleteProfile from "./pages/CompleteProfile/CompleteProfile.jsx";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
         </Route>
 
         {/* Auth routes without Layout */}
+        <Route path="/connect/google/callback" element={<GoogleCallback />} />
+       <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
       </Routes>

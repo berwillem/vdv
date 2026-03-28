@@ -1,38 +1,46 @@
-// src/components/Navbar.jsx
-import { useState } from "react";
+import { useState } from "react"; // Ajout de useEffect
 import { useTranslation } from "react-i18next"; 
 import {
   HiOutlineMenuAlt3,
   HiOutlineX,
   HiOutlineGlobeAlt,
+  HiLogout // Icône pour le logout
 } from "react-icons/hi";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom"; // Ajout de useNavigate
 import LOGO from "../../../assets/logo.png";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { t, i18n } = useTranslation(); // 2. Initialisation de t et i18n
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
 
-  const isLoggedIn = false;
+  // --- LOGIQUE D'AUTH DYNAMIQUE ---
+  // On vérifie si le token existe dans le localStorage
+  const isLoggedIn = !!localStorage.getItem("jwt");
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwt"); // Supprime le token
+    closeDrawer();
+    navigate("/signin"); // Redirige vers la connexion
+  };
+  // -------------------------------
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const closeDrawer = () => setIsDrawerOpen(false);
 
-  // 3. Fonction pour changer la langue proprement
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    setIsLangOpen(false); // Ferme le dropdown après sélection
+    setIsLangOpen(false);
   };
 
-  // 4. On utilise les clés du JSON pour les liens
   const navLinks = [
     { name: t("nav.home"), path: "/" },
     { name: t("nav.about"), path: "/a-propos" },
     { name: t("nav.trips"), path: "/nos-voyages" },
     { name: t("nav.customTrip"), path: "/voyage-personnalise" },
-    { name: "Entreprise", path: "/entreprise" }, // ← NEW
+    { name: "Entreprise", path: "/entreprise" },
     { name: t("nav.contact"), path: "/contact" },
   ];
 
@@ -59,7 +67,6 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-right-desktop">
-            {/* Language Selector Desktop */}
             <div className="navbar-lang">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
@@ -76,10 +83,14 @@ const Navbar = () => {
               )}
             </div>
 
+            {/* AFFICHAGE CONDITIONNEL DES BOUTONS */}
             {isLoggedIn ? (
-              <NavLink to="/profile" className="navbar-auth-btn">
-                {t("auth.profile")}
-              </NavLink>
+              <div className="navbar-user-actions">
+           
+                <button onClick={handleLogout} className="navbar-auth-btn">
+                  <HiLogout size={20} />
+                </button>
+              </div>
             ) : (
               <NavLink to="/signin" className="navbar-auth-btn">
                 {t("auth.signin")}
@@ -128,11 +139,15 @@ const Navbar = () => {
                 </div>
               </div>
 
+              {/* AUTH MOBILE */}
               <div className="drawer-auth">
                 {isLoggedIn ? (
-                  <NavLink to="/profile" className="drawer-profile-btn" onClick={closeDrawer}>
-                    {t("auth.profile")}
-                  </NavLink>
+                  <>
+            
+                    <button onClick={handleLogout} className="drawer-logout-btn">
+                      {t("auth.logout") || "Déconnexion"}
+                    </button>
+                  </>
                 ) : (
                   <NavLink to="/signin" className="drawer-signin-btn" onClick={closeDrawer}>
                     {t("auth.signin")}

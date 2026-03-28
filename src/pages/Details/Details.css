@@ -138,7 +138,7 @@
 }
 .selction-info button {
   border: 1px solid rgba(78, 78, 78, 0.2);
-  color: rgba(78, 78, 78, 0.2);
+
   border-radius: 200px;
   padding: 5px 10px;
   font-family: Poppins;
@@ -147,6 +147,7 @@
   font-size: 9.45px;
   line-height: 100%;
   letter-spacing: 0%;
+  cursor: pointer;
 }
 .card-date {
   width: 100%;
@@ -180,18 +181,18 @@
   border: 1px solid #eee;
 }
 
-.form-group {
+.details-page .form-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.details-page  .form-group label {
   display: block;
   font-size: 12px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.form-group input {
+.details-page  .form-group input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -200,10 +201,10 @@
   padding-left: 50px;
   color: rgba(126, 126, 126, 1);
 }
-.input-container {
+.details-sidebar  .input-container {
   position: relative;
 }
-.input-container svg {
+.details-sidebar .input-container svg {
   position: absolute;
   left: 10px;
   height: 100%;
@@ -211,6 +212,7 @@
   padding-right: 10px;
   width: 30px;
   color: rgba(126, 126, 126, 1);
+
 }
 .btn-check {
   width: 100%;
@@ -229,4 +231,28 @@
   .container {
     flex-direction: column;
   }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 9999;
+}
+.modal-card {
+  background: white; padding: 25px; border-radius: 12px;
+  width: 400px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.close-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: none; border: none; font-size: 20px; cursor: pointer;
+}
+.info-line { display: flex; justify-content: space-between; margin: 15px 0; }
+.total-line { 
+  border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;
+  display: flex; justify-content: space-between; font-size: 1.2rem;
+}
+.confirm-btn {
+  width: 100%; padding: 12px; background: #1a1c3d; color: white;
+  border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 20px;
 }
