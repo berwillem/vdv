@@ -4,7 +4,8 @@ import {
   HiOutlineMenuAlt3,
   HiOutlineX,
   HiOutlineGlobeAlt,
-  HiLogout // Icône pour le logout
+  HiLogout, // Icône pour le logout
+  HiUser  
 } from "react-icons/hi";
 import { NavLink, Link, useNavigate } from "react-router-dom"; // Ajout de useNavigate
 import LOGO from "../../../assets/logo.png";
@@ -87,9 +88,10 @@ const Navbar = () => {
             {isLoggedIn ? (
               <div className="navbar-user-actions">
            
-                <button onClick={handleLogout} className="navbar-auth-btn">
-                  <HiLogout size={20} />
-                </button>
+                <Link to="/profile">
+                  <HiUser color="#0F1327"  size={20} />
+                </Link>
+           
               </div>
             ) : (
               <NavLink to="/signin" className="navbar-auth-btn">
