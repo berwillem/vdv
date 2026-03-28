@@ -23,3 +23,25 @@ export const GetVoyage2 = (page = 1, pageSize = 10) => {
     },
   });
 };
+
+
+// Récupérer les réservations de l'utilisateur connecté
+export const GetUserReservations = async (userId, token) => {
+  return await axios.get(`${BASE_URL}/reservations`, {
+    params: {
+      "filters[users_permissions_user][id][$eq]": userId, // ← nom exact du champ
+      "populate[voyage]": true,
+    },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+// Récupérer les demandes perso de l'utilisateur connecté
+export const GetUserPersoTrips = async (userId, token) => {
+  return await axios.get(`${BASE_URL}/perso-trips`, {
+    params: {
+      "filters[owner][id][$eq]": userId, // ← nom exact du champ
+    },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
