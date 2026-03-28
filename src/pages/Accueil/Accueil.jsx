@@ -8,88 +8,92 @@ import Discount from "../../assets/images/discount.png";
 import HeroV from "../../assets/images/HeroV.mp4";
 
 // SERVICES
-import { GetVoyage } from "../../services/voyages";
+import { GetVoyage2 } from "../../services/voyages";
 import { Perso } from "../../services/perso";
 
 const STRAPI_URL = "http://localhost:1337";
 
-// --- COMPOSANT FAQ ITEM ---
-const FAQItem = ({ question, answer, isOpen, onToggle }) => {
-  return (
-    <div className={`faq-item ${isOpen ? "open" : ""}`}>
-      <button className="faq-question" onClick={onToggle}>
-        <span className="question-text">{question}</span>
-        <span className={`faq-icon ${isOpen ? "rotated" : ""}`}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-      </button>
-      <div className="faq-answer-wrapper">
-        <div className="faq-answer">
-          <p>{answer}</p>
-        </div>
-      </div>
+// --- COMPOSANT FAQ ITEM (Inchangé) ---
+const FAQItem = ({ question, answer, isOpen, onToggle }) => (
+  <div className={`faq-item ${isOpen ? "open" : ""}`}>
+    <button className="faq-question" onClick={onToggle}>
+      <span className="question-text">{question}</span>
+      <span className={`faq-icon ${isOpen ? "rotated" : ""}`}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    </button>
+    <div className="faq-answer-wrapper">
+      <div className="faq-answer"><p>{answer}</p></div>
     </div>
-  );
-};
+  </div>
+);
 
 const Accueil = () => {
-  // --- ÉTATS ---
   const [openFAQIndex, setOpenFAQIndex] = useState(0);
   const [destinations, setDestinations] = useState([]);
   
-  // Pagination : on affiche 6 au début
-  const [visibleCount, setVisibleCount] = useState(10);
+  // --- ÉTATS PAGINATION BACKEND ---
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   // Formulaire Perso Trip
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    Destination: "",
-    nbr: 1,
-    date: "",
-    budget: ""
+    Destination: "", nbr: 1, date: "", budget: ""
   });
 
-  // --- DATA FETCHING ---
+  // --- CHARGEMENT INITIAL ---
   useEffect(() => {
-    GetVoyage()
+    fetchVoyages(1);
+  }, []);
+
+  const fetchVoyages = (pageNum) => {
+    setLoadingMore(true);
+    GetVoyage2(pageNum, 10) //
       .then((res) => {
-        setDestinations(res.data.data);
+        const newData = res.data.data;
+        const meta = res.data.meta.pagination;
+
+        // On concatène les nouveaux voyages aux anciens
+        setDestinations(prev => (pageNum === 1 ? newData : [...prev, ...newData]));
+        
+        // On vérifie s'il reste des pages à charger
+        setHasMore(meta.page < meta.pageCount);
+        setLoadingMore(false);
       })
       .catch((err) => {
         console.error("Error fetching voyages:", err);
+        setLoadingMore(false);
       });
-  }, []);
+  };
 
-  // --- HANDLERS ---
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchVoyages(nextPage);
+  };
+
   const handlePersoSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
-      const token = localStorage.getItem("jwt");
+      const token = localStorage.getItem("token"); // Utilise "token" ou "jwt" selon ton storage
       if (!token) {
         alert("Veuillez vous connecter pour envoyer une demande personnalisée.");
         return;
       }
-
-      // Appel de ton service Perso
       await Perso(formData, null, token);
-      
       alert("Demande envoyée avec succès !");
-      // Reset du formulaire
       setFormData({ Destination: "", nbr: 1, date: "", budget: "" });
     } catch (err) {
       console.error("Erreur envoi Perso:", err);
-      alert("Une erreur est survenue lors de l'envoi.");
+      alert("Une erreur est survenue.");
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const loadMore = () => {
-    setVisibleCount((prev) => prev + 3);
   };
 
   const faqs = [
@@ -100,13 +104,11 @@ const Accueil = () => {
 
   return (
     <>
-      {/* HERO + PERSONALISED FORM */}
       <section className="hero-form-section">
         <div className="hero-wrapper">
           <video src={HeroV} className="hero-bg" autoPlay loop muted></video>
           <div className="form-card">
             <h2 className="form-title">Voyage personnalisé</h2>
-
             <form className="custom-form" onSubmit={handlePersoSubmit}>
               <div className="form-row">
                 <div className="input-wrapper">
@@ -114,53 +116,37 @@ const Accueil = () => {
                   <div className="input-with-icon">
                     <MapPin size={18} />
                     <input 
-                      type="text" 
-                      placeholder="Où voulez-vous aller ?" 
-                      value={formData.Destination}
-                      onChange={(e) => setFormData({...formData, Destination: e.target.value})}
-                      required
+                      type="text" placeholder="Où ?" value={formData.Destination}
+                      onChange={(e) => setFormData({...formData, Destination: e.target.value})} required
                     />
                   </div>
                 </div>
                 <div className="input-wrapper">
-                  <label>Nombre de personnes</label>
+                  <label>Personnes</label>
                   <div className="input-with-icon">
                     <Users size={18} />
-                    <input 
-                      type="number" 
-                      value={formData.nbr}
-                      onChange={(e) => setFormData({...formData, nbr: e.target.value})}
-                    />
+                    <input type="number" value={formData.nbr} onChange={(e) => setFormData({...formData, nbr: e.target.value})} />
                   </div>
                 </div>
                 <div className="input-wrapper">
-                  <label>Date souhaitée</label>
+                  <label>Date</label>
                   <div className="input-with-icon">
                     <Calendar size={18} />
-                    <input 
-                      type="date" 
-                      value={formData.date}
-                      onChange={(e) => setFormData({...formData, date: e.target.value})}
-                    />
+                    <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} />
                   </div>
                 </div>
               </div>
               <div className="form-row budget-row">
                 <div className="input-wrapper">
-                  <label>Budget par personne</label>
+                  <label>Budget</label>
                   <div className="input-with-icon">
                     <Euro size={18} />
-                    <input 
-                      type="number" 
-                      placeholder="Budget en DZD" 
-                      value={formData.budget}
-                      onChange={(e) => setFormData({...formData, budget: e.target.value})}
-                    />
+                    <input type="number" placeholder="DZD" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
                   </div>
                 </div>
                 <div className="submit-wrapper">
                   <button type="submit" className="submit-button" disabled={isSubmitting}>
-                    {isSubmitting ? "Envoi en cours..." : "Envoyer votre demande"}
+                    {isSubmitting ? "Envoi..." : "Envoyer votre demande"}
                   </button>
                 </div>
               </div>
@@ -169,7 +155,6 @@ const Accueil = () => {
         </div>
       </section>
 
-      {/* DESTINATIONS POPULAIRES (PAGINATION ICI) */}
       <section className="destinations-section">
         <div className="destinations-container">
           <div className="destinations-header">
@@ -178,11 +163,9 @@ const Accueil = () => {
           </div>
           
           <div className="destinations-grid">
-            {/* On slice le tableau pour n'afficher que visibleCount éléments */}
-            {destinations.slice(0, visibleCount).map((dest, i) => (
+            {destinations.map((dest, i) => (
               <Link to={`/details/${dest.documentId}`} key={i} className="destination-card">
                 <div className="card-image">
-                  {/* Sécurité sur l'image index 0 */}
                   <img src={dest.image?.[0] ? `${STRAPI_URL}${dest.image[0].url}` : "https://via.placeholder.com/400"} alt={dest.name} />
                 </div>
                 <div className="card-content">
@@ -194,29 +177,28 @@ const Accueil = () => {
             ))}
           </div>
 
-          {/* Bouton Voir Plus s'il reste des éléments */}
-          {visibleCount < destinations.length && (
+          {/* BOUTON VOIR PLUS GÉRÉ PAR LE BACKEND */}
+          {hasMore && (
             <div className="voir-plus-wrapper">
-              <button className="voir-plus-btn" onClick={loadMore}>Voir plus</button>
+              <button className="voir-plus-btn" onClick={loadMore} disabled={loadingMore}>
+                {loadingMore ? "Chargement..." : "Voir plus"}
+              </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* PROMO FAMILLE */}
+      {/* PROMO FAMILLE ET FAQ (Inchangés) */}
       <section className="family-promo-section">
         <div className="family-promo-container">
           <div className="family-content">
             <h2 className="family-title">Des réductions sur les <br /> voyages en famille</h2>
             <button className="family-cta">Découvrez dès maintenant</button>
           </div>
-          <div className="family-image-wrapper">
-            <img src={Discount} alt="Promo" className="family-image" />
-          </div>
+          <div className="family-image-wrapper"><img src={Discount} alt="Promo" className="family-image" /></div>
         </div>
       </section>
 
-      {/* FAQ SECTION */}
       <section className="faq-section">
         <div className="faq-container">
           <div className="faq-header">
@@ -225,13 +207,8 @@ const Accueil = () => {
           </div>
           <div className="faq-list">
             {faqs.map((item, index) => (
-              <FAQItem
-                key={index}
-                question={item.question}
-                answer={item.answer}
-                isOpen={openFAQIndex === index}
-                onToggle={() => setOpenFAQIndex(index)}
-              />
+              <FAQItem key={index} question={item.question} answer={item.answer}
+                isOpen={openFAQIndex === index} onToggle={() => setOpenFAQIndex(index)} />
             ))}
           </div>
         </div>

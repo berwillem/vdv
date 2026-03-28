@@ -14,3 +14,12 @@ export const GetVoyageById = (id) => {
   const url = `${BASE_URL}/voyages/${id}?populate[0]=image&populate[1]=categories&populate[2]=disponibilite`;
   return axios.get(url);
 };
+export const GetVoyage2 = (page = 1, pageSize = 10) => {
+  return axios.get(`${BASE_URL}/voyages`, {
+    params: {
+      "pagination[page]": page,
+      "pagination[pageSize]": pageSize,
+      populate: "*", // Pour récupérer les images
+    },
+  });
+};
