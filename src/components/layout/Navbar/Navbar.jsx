@@ -7,13 +7,13 @@ import {
   HiLogout, // Icône pour le logout
   HiUser  
 } from "react-icons/hi";
-import { NavLink, Link, useNavigate } from "react-router-dom"; // Ajout de useNavigate
+import { NavLink, Link } from "react-router-dom"; // Ajout de useNavigate
 import LOGO from "../../../assets/logo.png";
 import "./Navbar.css";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
 
@@ -21,11 +21,6 @@ const Navbar = () => {
   // On vérifie si le token existe dans le localStorage
   const isLoggedIn = !!localStorage.getItem("jwt");
 
-  const handleLogout = () => {
-    localStorage.removeItem("jwt"); // Supprime le token
-    closeDrawer();
-    navigate("/signin"); // Redirige vers la connexion
-  };
   // -------------------------------
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
@@ -143,18 +138,19 @@ const Navbar = () => {
 
               {/* AUTH MOBILE */}
               <div className="drawer-auth">
-                {isLoggedIn ? (
-                  <>
-            
-                    <button onClick={handleLogout} className="drawer-logout-btn">
-                      {t("auth.logout") || "Déconnexion"}
-                    </button>
-                  </>
-                ) : (
-                  <NavLink to="/signin" className="drawer-signin-btn" onClick={closeDrawer}>
-                    {t("auth.signin")}
-                  </NavLink>
-                )}
+                  {isLoggedIn ? (
+              <div className="navbar-user-actions">
+           
+                <Link to="/profile">
+                  <HiUser color="#0F1327"  size={20} />
+                </Link>
+           
+              </div>
+            ) : (
+              <NavLink to="/signin" className="navbar-auth-btn">
+                {t("auth.signin")}
+              </NavLink>
+            )}
               </div>
             </nav>
           </div>

@@ -31,3 +31,56 @@ color: white;
 .status-en_attente { background: #fff3cd; color: #856404; }
 .status-envoye { background: #d4edda; color: #155724; }
 .item-price { font-weight: bold; font-size: 1.1rem; }
+/* --- RESPONSIVE DESIGN --- */
+
+@media (max-width: 768px) {
+  .profile-page {
+    margin-top: 80px; /* Réduit l'espace haut sur mobile */
+    padding: 15px;
+  }
+
+  /* Le header passe en colonne */
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .user-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Les onglets deviennent scrollables horizontalement ou s'empilent */
+  .profile-tabs {
+    overflow-x: auto; /* Permet de swiper les onglets s'ils sont trop larges */
+    white-space: nowrap;
+    display: flex;
+    padding-bottom: 5px;
+  }
+
+  .profile-tabs button {
+    padding: 10px 15px;
+    font-size: 14px;
+    flex-shrink: 0; /* Empêche les boutons de rétrécir */
+  }
+
+  /* Les cartes de réservation/demandes */
+  .item-card {
+    flex-direction: column;
+    align-items: flex-start; /* Aligne le contenu à gauche */
+    gap: 15px;
+  }
+
+  .item-status {
+    align-self: flex-start; /* Garde le badge à gauche */
+  }
+
+  .item-price {
+    width: 100%;
+    text-align: right;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+  }
+}

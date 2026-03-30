@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MapPin, Users, Calendar, Euro } from "lucide-react";
+import Swal from "sweetalert2";
 import "./Accueil.css";
 
 // ASSETS
@@ -13,7 +14,7 @@ import { Perso } from "../../services/perso";
 
 const STRAPI_URL = "http://localhost:1337";
 
-// --- COMPOSANT FAQ ITEM (Inchangé) ---
+// --- COMPOSANT FAQ ITEM ---
 const FAQItem = ({ question, answer, isOpen, onToggle }) => (
   <div className={`faq-item ${isOpen ? "open" : ""}`}>
     <button className="faq-question" onClick={onToggle}>
@@ -31,18 +32,22 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => (
 );
 
 const Accueil = () => {
+  const navigate = useNavigate();
   const [openFAQIndex, setOpenFAQIndex] = useState(0);
   const [destinations, setDestinations] = useState([]);
   
-  // --- ÉTATS PAGINATION BACKEND ---
+  // --- ÉTATS PAGINATION ---
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  // Formulaire Perso Trip
+  // --- ÉTAT FORMULAIRE ---
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    Destination: "", nbr: 1, date: "", budget: ""
+    Destination: "", 
+    nbr: 1, 
+    date: "", 
+    budget: ""
   });
 
   // --- CHARGEMENT INITIAL ---
@@ -52,15 +57,12 @@ const Accueil = () => {
 
   const fetchVoyages = (pageNum) => {
     setLoadingMore(true);
-    GetVoyage2(pageNum, 10) //
+    GetVoyage2(pageNum, 10)
       .then((res) => {
         const newData = res.data.data;
         const meta = res.data.meta.pagination;
 
-        // On concatène les nouveaux voyages aux anciens
         setDestinations(prev => (pageNum === 1 ? newData : [...prev, ...newData]));
-        
-        // On vérifie s'il reste des pages à charger
         setHasMore(meta.page < meta.pageCount);
         setLoadingMore(false);
       })
@@ -76,37 +78,67 @@ const Accueil = () => {
     fetchVoyages(nextPage);
   };
 
+  // --- GESTION DU FORMULAIRE AVEC SWEETALERT ---
   const handlePersoSubmit = async (e) => {
     e.preventDefault();
+    
+    const token = localStorage.getItem("jwt"); // Vérifie le token (jwt ou token selon ton app)
+
+    if (!token) {
+      Swal.fire({
+        icon: "info",
+        title: "Connexion requise",
+        text: "Vous devez être connecté pour envoyer une demande personnalisée.",
+        showCancelButton: true,
+        confirmButtonText: "Se connecter",
+        cancelButtonText: "Plus tard",
+        confirmButtonColor: "#1a1c3d",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const token = localStorage.getItem("token"); // Utilise "token" ou "jwt" selon ton storage
-      if (!token) {
-        alert("Veuillez vous connecter pour envoyer une demande personnalisée.");
-        return;
-      }
       await Perso(formData, null, token);
-      alert("Demande envoyée avec succès !");
+      
+      Swal.fire({
+        icon: "success",
+        title: "Demande envoyée !",
+        text: "Votre projet de voyage a été transmis à nos conseillers.",
+        confirmButtonColor: "#1a1c3d",
+        timer: 3500
+      });
+
       setFormData({ Destination: "", nbr: 1, date: "", budget: "" });
     } catch (err) {
       console.error("Erreur envoi Perso:", err);
-      alert("Une erreur est survenue.");
+      Swal.fire({
+        icon: "error",
+        title: "Erreur",
+        text: "Impossible d'envoyer la demande. Veuillez réessayer.",
+        confirmButtonColor: "#d33",
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const faqs = [
-    { question: "Comment puis-je réserver un voyage ?", answer: "Vous pouvez réserver directement sur notre site..." },
-    { question: "Dois-je payer la totalité ?", answer: "Non, un acompte de 30% suffit..." },
-    { question: "Qu'est-ce qu'un voyage personnalisé ?", answer: "C’est un voyage conçu sur mesure selon vos envies..." }
+    { question: "Comment puis-je réserver un voyage ?", answer: "Sélectionnez votre destination, choisissez vos dates et cliquez sur réserver pour finaliser votre paiement." },
+    { question: "Dois-je payer la totalité immédiatement ?", answer: "Non, un acompte est possible selon les conditions spécifiques de chaque voyage." },
+    { question: "Qu'est-ce qu'un voyage personnalisé ?", answer: "C'est une offre sur mesure où vous définissez votre budget et vos préférences, et nous créons l'itinéraire pour vous." }
   ];
 
   return (
-    <>
+    <div className="accueil-page">
+      {/* SECTION HERO & FORMULAIRE */}
       <section className="hero-form-section">
         <div className="hero-wrapper">
-          <video src={HeroV} className="hero-bg" autoPlay loop muted></video>
+          <video src={HeroV} className="hero-bg" autoPlay loop muted playsInline></video>
           <div className="form-card">
             <h2 className="form-title">Voyage personnalisé</h2>
             <form className="custom-form" onSubmit={handlePersoSubmit}>
@@ -125,7 +157,7 @@ const Accueil = () => {
                   <label>Personnes</label>
                   <div className="input-with-icon">
                     <Users size={18} />
-                    <input type="number" value={formData.nbr} onChange={(e) => setFormData({...formData, nbr: e.target.value})} />
+                    <input type="number" min="1" value={formData.nbr} onChange={(e) => setFormData({...formData, nbr: e.target.value})} />
                   </div>
                 </div>
                 <div className="input-wrapper">
@@ -138,7 +170,7 @@ const Accueil = () => {
               </div>
               <div className="form-row budget-row">
                 <div className="input-wrapper">
-                  <label>Budget</label>
+                  <label>Budget souhaité</label>
                   <div className="input-with-icon">
                     <Euro size={18} />
                     <input type="number" placeholder="DZD" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
@@ -146,7 +178,7 @@ const Accueil = () => {
                 </div>
                 <div className="submit-wrapper">
                   <button type="submit" className="submit-button" disabled={isSubmitting}>
-                    {isSubmitting ? "Envoi..." : "Envoyer votre demande"}
+                    {isSubmitting ? "Traitement..." : "Envoyer ma demande"}
                   </button>
                 </div>
               </div>
@@ -155,65 +187,80 @@ const Accueil = () => {
         </div>
       </section>
 
+      {/* SECTION DESTINATIONS */}
       <section className="destinations-section">
         <div className="destinations-container">
           <div className="destinations-header">
-            <span className="section-badge">Une sélection de voyage</span>
-            <h2 className="section-title">Destination populaire</h2>
+            <span className="section-badge">Notre Sélection</span>
+            <h2 className="section-title">Destinations populaires</h2>
           </div>
           
           <div className="destinations-grid">
-            {destinations.map((dest, i) => (
-              <Link to={`/details/${dest.documentId}`} key={i} className="destination-card">
+            {destinations.map((dest) => (
+              <Link to={`/details/${dest.documentId}`} key={dest.id} className="destination-card">
                 <div className="card-image">
-                  <img src={dest.image?.[0] ? `${STRAPI_URL}${dest.image[0].url}` : "https://via.placeholder.com/400"} alt={dest.name} />
+                  <img 
+                    src={dest.image?.[0] ? `${STRAPI_URL}${dest.image[0].url}` : "https://via.placeholder.com/400"} 
+                    alt={dest.name} 
+                  />
                 </div>
                 <div className="card-content">
                   <h3>{dest.name}</h3>
-                  <p>{dest.description?.substring(0, 80)}...</p>
-                  <span className="price">{dest.price?.toLocaleString()} DA</span>
+                  <p>{dest.description?.substring(0, 85)}...</p>
+                  <div className="card-footer">
+                    <span className="price">{dest.price?.toLocaleString()} DZD</span>
+               
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
-          {/* BOUTON VOIR PLUS GÉRÉ PAR LE BACKEND */}
           {hasMore && (
             <div className="voir-plus-wrapper">
               <button className="voir-plus-btn" onClick={loadMore} disabled={loadingMore}>
-                {loadingMore ? "Chargement..." : "Voir plus"}
+                {loadingMore ? "Chargement..." : "Charger plus de destinations"}
               </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* PROMO FAMILLE ET FAQ (Inchangés) */}
+      {/* SECTION PROMO FAMILLE */}
       <section className="family-promo-section">
         <div className="family-promo-container">
           <div className="family-content">
-            <h2 className="family-title">Des réductions sur les <br /> voyages en famille</h2>
-            <button className="family-cta">Découvrez dès maintenant</button>
+            <h2 className="family-title">Des réductions exclusives <br /> pour les voyages en famille</h2>
+            <p>Profitez de tarifs préférentiels pour vos enfants et des activités adaptées.</p>
+            <button className="family-cta">Découvrir les offres</button>
           </div>
-          <div className="family-image-wrapper"><img src={Discount} alt="Promo" className="family-image" /></div>
+          <div className="family-image-wrapper">
+            <img src={Discount} alt="Promo" className="family-image" />
+          </div>
         </div>
       </section>
 
+      {/* SECTION FAQ */}
       <section className="faq-section">
         <div className="faq-container">
           <div className="faq-header">
-            <span className="faq-badge">FAQs</span>
-            <h2 className="faq-title">Questions fréquemment posées</h2>
+            <span className="faq-badge">Aide</span>
+            <h2 className="faq-title">Questions fréquentes</h2>
           </div>
           <div className="faq-list">
             {faqs.map((item, index) => (
-              <FAQItem key={index} question={item.question} answer={item.answer}
-                isOpen={openFAQIndex === index} onToggle={() => setOpenFAQIndex(index)} />
+              <FAQItem 
+                key={index} 
+                question={item.question} 
+                answer={item.answer}
+                isOpen={openFAQIndex === index} 
+                onToggle={() => setOpenFAQIndex(openFAQIndex === index ? -1 : index)} 
+              />
             ))}
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

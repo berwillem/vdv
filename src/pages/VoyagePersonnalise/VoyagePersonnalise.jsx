@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Swal from "sweetalert2"; // 1. Import de SweetAlert2
 import "./VoyagePersonnalise.css";
 import { Perso } from "../../services/perso";
 
@@ -8,7 +8,7 @@ const VoyagePersonnalise = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     Destination: "",
     nbr: 1,
@@ -16,7 +16,7 @@ const VoyagePersonnalise = () => {
     date: "",
   });
 
-  const totalSteps = 4; // Passage à 4 étapes
+  const totalSteps = 4;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +26,14 @@ const VoyagePersonnalise = () => {
   const nextStep = () => {
     if (validateStep()) {
       setStep((prev) => Math.min(prev + 1, totalSteps));
+    } else {
+      // Optionnel : Alerte si le champ est vide
+      Swal.fire({
+        icon: "warning",
+        title: "Champ requis",
+        text: "Veuillez remplir les informations avant de continuer.",
+        confirmButtonColor: "#3085d6",
+      });
     }
   };
 
@@ -43,35 +51,53 @@ const VoyagePersonnalise = () => {
     }
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (validateStep()) {
-    setLoading(true);
-    
-    const token = localStorage.getItem("jwt");
-    const userStorage = localStorage.getItem("user");
-    
-    if (!token || !userStorage) {
-      alert("Session expirée, reconnectez-vous.");
-      setLoading(false);
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateStep()) {
+      setLoading(true);
 
-    const user = JSON.parse(userStorage);
-    
-    // CRUCIAL : En Strapi v5, on utilise le documentId pour les relations
-    const userIdentifier = user.id; 
+      const token = localStorage.getItem("jwt");
+      const userStorage = localStorage.getItem("user");
 
-    try {
-      await Perso(formData, userIdentifier, token);
-        
+      if (!token || !userStorage) {
+        // 2. SweetAlert pour session expirée
+        Swal.fire({
+          icon: "error",
+          title: "Oups...",
+          text: "Votre session a expiré. Veuillez vous reconnecter.",
+        });
+        setLoading(false);
+        return;
+      }
+
+      const user = JSON.parse(userStorage);
+      const userIdentifier = user.id;
+
+      try {
+        await Perso(formData, userIdentifier, token);
+
+        // 3. SweetAlert de succès
+        Swal.fire({
+          icon: "success",
+          title: "Demande envoyée !",
+          text: "Votre projet de voyage a bien été enregistré.",
+          timer: 3000,
+          showConfirmButton: false,
+        });
+
         setShowConfetti(true);
         setIsSubmitted(true);
         setTimeout(() => setShowConfetti(false), 8000);
       } catch (error) {
         console.error("Erreur Strapi:", error.response?.data || error.message);
         const errorMsg = error.response?.data?.error?.message;
-        alert(errorMsg === "Forbidden" ? "Session expirée, reconnectez-vous." : "Une erreur est survenue.");
+        
+        // 4. SweetAlert pour les erreurs serveurs
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: errorMsg === "Forbidden" ? "Session expirée, reconnectez-vous." : "Une erreur est survenue lors de l'envoi.",
+        });
       } finally {
         setLoading(false);
       }

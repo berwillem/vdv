@@ -396,6 +396,7 @@
 .destination-card .card-image {
   height: 200px;
   overflow: hidden;
+  min-width: 250px;
 }
 
 .destination-card .card-image img {
