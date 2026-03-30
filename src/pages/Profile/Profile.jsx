@@ -35,7 +35,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/login";
+    window.location.href = "/SignIn";
   };
 
   if (!user) return <div className="profile-container">Veuillez vous connecter.</div>;

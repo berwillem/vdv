@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import Swal from "sweetalert2"; // Import SweetAlert
+
 import "./CompleteProfile.css";
-import { FiPhone, FiUser, FiMail } from "react-icons/fi";
+import { FiPhone, FiMail } from "react-icons/fi";
+import { UpdateUserProfile } from "../../services/profil";
 
 const CompleteProfile = () => {
   const [phone, setPhone] = useState("");
@@ -11,10 +13,9 @@ const CompleteProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // On récupère l'utilisateur temporaire stocké lors du callback Google
     const savedUser = JSON.parse(localStorage.getItem("user"));
     if (!savedUser) {
-      navigate("/register"); // Retour si pas d'utilisateur
+      navigate("/register");
     } else {
       setUser(savedUser);
     }
@@ -22,30 +23,48 @@ const CompleteProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    
+    // Petite validation avant l'envoi
+    if (phone.length < 8) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Numéro invalide",
+        text: "Veuillez entrer un numéro de téléphone valide.",
+        confirmButtonColor: "#1a1c3d",
+      });
+    }
 
+    setLoading(true);
     const jwt = localStorage.getItem("jwt");
 
     try {
-      // MISE À JOUR DANS STRAPI (Requête PUT sur l'utilisateur actuel)
-      const response = await axios.put(
-        `http://localhost:1337/api/users/${user.id}`,
-        { phone: phone }, // On envoie le champ personnalisé "phone"
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
+      // Appel au service
+      const response = await UpdateUserProfile(user.id, { phone: phone }, jwt);
 
-      // Mettre à jour l'utilisateur local avec son nouveau numéro
+      // Mise à jour du stockage local avec les nouvelles données (incluant le téléphone)
       localStorage.setItem("user", JSON.stringify(response.data));
+
+      // Alerte de succès
+      await Swal.fire({
+        icon: "success",
+        title: "Profil complété !",
+        text: `Bienvenue parmi nous, ${user.username}.`,
+        confirmButtonColor: "#1a1c3d",
+        timer: 2500,
+        showConfirmButton: false
+      });
+
+      navigate("/"); 
       
-      alert("Profil complété avec succès !");
-      navigate("/"); // Direction l'accueil ou le dashboard
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du profil", error);
-      alert("Une erreur est survenue lors de l'enregistrement.");
+      console.error("Erreur mise à jour profil:", error);
+      
+      Swal.fire({
+        icon: "error",
+        title: "Erreur",
+        text: "Impossible d'enregistrer vos informations. Veuillez réessayer.",
+        confirmButtonColor: "#d33",
+      });
     } finally {
       setLoading(false);
     }
@@ -56,6 +75,9 @@ const CompleteProfile = () => {
   return (
     <div className="complete-profile-container">
       <div className="complete-card">
+        <div className="profile-icon-header">
+           <FiPhone size={40} color="#1a1c3d" />
+        </div>
         <h2>Dernière étape !</h2>
         <p className="subtitle">
           Ravi de vous voir, <strong>{user.username}</strong>. 
@@ -63,13 +85,11 @@ const CompleteProfile = () => {
         </p>
 
         <form onSubmit={handleSubmit}>
-          {/* Email (Lecture seule pour rassurer l'user) */}
           <div className="form-group-static">
             <label><FiMail /> Email</label>
             <input type="text" value={user.email} disabled />
           </div>
 
-          {/* Téléphone (Le seul champ à remplir) */}
           <div className="form-group">
             <label><FiPhone /> Numéro de téléphone</label>
             <input

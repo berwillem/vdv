@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2"; // 1. Import de SweetAlert2
 import "./VoyagePersonnalise.css";
 import { Perso } from "../../services/perso";
+import { Navigate } from "react-router-dom";
 
 const VoyagePersonnalise = () => {
   const [step, setStep] = useState(1);
@@ -59,16 +60,22 @@ const VoyagePersonnalise = () => {
       const token = localStorage.getItem("jwt");
       const userStorage = localStorage.getItem("user");
 
-      if (!token || !userStorage) {
-        // 2. SweetAlert pour session expirée
-        Swal.fire({
-          icon: "error",
-          title: "Oups...",
-          text: "Votre session a expiré. Veuillez vous reconnecter.",
-        });
-        setLoading(false);
-        return;
-      }
+ if (!token) {
+      Swal.fire({
+        icon: "info",
+        title: "Connexion requise",
+        text: "Vous devez être connecté pour envoyer une demande personnalisée.",
+        showCancelButton: true,
+        confirmButtonText: "Se connecter",
+        cancelButtonText: "Plus tard",
+        confirmButtonColor: "#1a1c3d",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Navigate("/SignIn");
+        }
+      });
+      return;
+    }
 
       const user = JSON.parse(userStorage);
       const userIdentifier = user.id;

@@ -95,7 +95,7 @@ const Accueil = () => {
         confirmButtonColor: "#1a1c3d",
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate("/login");
+          navigate("/SignIn");
         }
       });
       return;
