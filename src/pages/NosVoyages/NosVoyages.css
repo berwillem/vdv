@@ -394,3 +394,10 @@ margin-top: 0.5rem;
 .page-nav-btn:active:not(:disabled) {
   transform: scale(0.95);
 }
+.trip-price,.range-display {
+  /* Tes styles actuels (font-size, color, etc.) */
+  
+ 
+  direction: ltr !important; /* Force l'ordre de gauche à droite */
+  unicode-bidi: isolate;    /* Empêche les caractères arabes voisins d'influencer l'ordre */
+}

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2"; // 1. Import de SweetAlert2
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./VoyagePersonnalise.css";
 import { Perso } from "../../services/perso";
-import { Navigate } from "react-router-dom";
 
 const VoyagePersonnalise = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,24 +27,6 @@ const VoyagePersonnalise = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const nextStep = () => {
-    if (validateStep()) {
-      setStep((prev) => Math.min(prev + 1, totalSteps));
-    } else {
-      // Optionnel : Alerte si le champ est vide
-      Swal.fire({
-        icon: "warning",
-        title: "Champ requis",
-        text: "Veuillez remplir les informations avant de continuer.",
-        confirmButtonColor: "#3085d6",
-      });
-    }
-  };
-
-  const prevStep = () => {
-    setStep((prev) => Math.max(prev - 1, 1));
-  };
-
   const validateStep = () => {
     switch (step) {
       case 1: return formData.Destination.trim() !== "";
@@ -52,6 +37,23 @@ const VoyagePersonnalise = () => {
     }
   };
 
+  const nextStep = () => {
+    if (validateStep()) {
+      setStep((prev) => Math.min(prev + 1, totalSteps));
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: t("vp.alerts.required_title"),
+        text: t("vp.alerts.required_text"),
+        confirmButtonColor: "#3085d6",
+      });
+    }
+  };
+
+  const prevStep = () => {
+    setStep((prev) => Math.max(prev - 1, 1));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
@@ -60,22 +62,23 @@ const VoyagePersonnalise = () => {
       const token = localStorage.getItem("jwt");
       const userStorage = localStorage.getItem("user");
 
- if (!token) {
-      Swal.fire({
-        icon: "info",
-        title: "Connexion requise",
-        text: "Vous devez être connecté pour envoyer une demande personnalisée.",
-        showCancelButton: true,
-        confirmButtonText: "Se connecter",
-        cancelButtonText: "Plus tard",
-        confirmButtonColor: "#1a1c3d",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Navigate("/SignIn");
-        }
-      });
-      return;
-    }
+      if (!token) {
+        Swal.fire({
+          icon: "info",
+          title: t("vp.alerts.login_required_title"),
+          text: t("vp.alerts.login_required_text"),
+          showCancelButton: true,
+          confirmButtonText: t("vp.alerts.login_confirm"),
+          cancelButtonText: t("vp.alerts.login_cancel"),
+          confirmButtonColor: "#1a1c3d",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/SignIn");
+          }
+        });
+        setLoading(false);
+        return;
+      }
 
       const user = JSON.parse(userStorage);
       const userIdentifier = user.id;
@@ -83,11 +86,10 @@ const VoyagePersonnalise = () => {
       try {
         await Perso(formData, userIdentifier, token);
 
-        // 3. SweetAlert de succès
         Swal.fire({
           icon: "success",
-          title: "Demande envoyée !",
-          text: "Votre projet de voyage a bien été enregistré.",
+          title: t("vp.alerts.success_title"),
+          text: t("vp.alerts.success_text"),
           timer: 3000,
           showConfirmButton: false,
         });
@@ -96,14 +98,11 @@ const VoyagePersonnalise = () => {
         setIsSubmitted(true);
         setTimeout(() => setShowConfetti(false), 8000);
       } catch (error) {
-        console.error("Erreur Strapi:", error.response?.data || error.message);
         const errorMsg = error.response?.data?.error?.message;
-        
-        // 4. SweetAlert pour les erreurs serveurs
         Swal.fire({
           icon: "error",
-          title: "Erreur",
-          text: errorMsg === "Forbidden" ? "Session expirée, reconnectez-vous." : "Une erreur est survenue lors de l'envoi.",
+          title: t("vp.alerts.error_title"),
+          text: errorMsg === "Forbidden" ? t("vp.alerts.error_forbidden") : t("vp.alerts.error_generic"),
         });
       } finally {
         setLoading(false);
@@ -117,7 +116,6 @@ const VoyagePersonnalise = () => {
     setFormData({ Destination: "", nbr: 1, budget: 50000, date: "" });
   };
 
-  // Effet Confetti (inchangé)
   useEffect(() => {
     if (showConfetti) {
       const travelEmojis = ["✈️", "🧳", "🌴", "🌍", "🏖️", "🏔️", "🌅"];
@@ -143,32 +141,32 @@ const VoyagePersonnalise = () => {
               <div className="progress-bar">
                 <div className="progress" style={{ width: `${(step / totalSteps) * 100}%` }}></div>
               </div>
-              <p className="progress-text">Étape {step} sur {totalSteps}</p>
+              <p className="progress-text">{t("vp.steps.progress", { current: step, total: totalSteps })}</p>
             </div>
 
             <div className="step-card">
               <form className="vp-form" onSubmit={handleSubmit}>
                 {step === 1 && (
                   <div className="step-group fade-in">
-                    <h2 className="step-title">Où rêvez-vous d'aller ?</h2>
-                    <input type="text" name="Destination" value={formData.Destination} onChange={handleChange} placeholder="Paris, Bali, New York..." required />
+                    <h2 className="step-title">{t("vp.steps.step1_title")}</h2>
+                    <input type="text" name="Destination" value={formData.Destination} onChange={handleChange} placeholder={t("vp.steps.step1_placeholder")} required />
                   </div>
                 )}
                 {step === 2 && (
                   <div className="step-group fade-in">
-                    <h2 className="step-title">Combien de voyageurs ?</h2>
+                    <h2 className="step-title">{t("vp.steps.step2_title")}</h2>
                     <input type="number" name="nbr" value={formData.nbr} onChange={handleChange} min="1" required />
                   </div>
                 )}
                 {step === 3 && (
                   <div className="step-group fade-in">
-                    <h2 className="step-title">Budget par personne (DZD)</h2>
+                    <h2 className="step-title">{t("vp.steps.step3_title")}</h2>
                     <input type="number" name="budget" value={formData.budget} onChange={handleChange} min="0" step="5000" required />
                   </div>
                 )}
                 {step === 4 && (
                   <div className="step-group fade-in">
-                    <h2 className="step-title">Quand souhaitez-vous partir ?</h2>
+                    <h2 className="step-title">{t("vp.steps.step4_title")}</h2>
                     <input type="date" name="date" value={formData.date} onChange={handleChange} required />
                   </div>
                 )}
@@ -176,16 +174,16 @@ const VoyagePersonnalise = () => {
                 <div className="step-buttons">
                   {step > 1 && (
                     <button type="button" className="prev-btn" onClick={prevStep} disabled={loading}>
-                      Précédent
+                      {t("vp.steps.btn_prev")}
                     </button>
                   )}
                   {step < totalSteps ? (
                     <button type="button" className="next-btn" onClick={nextStep}>
-                      Suivant
+                      {t("vp.steps.btn_next")}
                     </button>
                   ) : (
                     <button type="submit" className="submit-btn" disabled={loading}>
-                      {loading ? "Envoi..." : "Finaliser ma demande 🎉"}
+                      {loading ? t("vp.steps.sending") : t("vp.steps.btn_submit")}
                     </button>
                   )}
                 </div>
@@ -194,20 +192,20 @@ const VoyagePersonnalise = () => {
           </>
         ) : (
           <div className="confirmation-card fade-in">
-            <h2 className="confirmation-title">Félicitations ! 🎉</h2>
-            <p className="confirmation-message">Demande envoyée avec succès !</p>
+            <h2 className="confirmation-title">{t("vp.confirmation.title")}</h2>
+            <p className="confirmation-message">{t("vp.confirmation.message")}</p>
             <div className="contact-summary">
-              <h3>Résumé :</h3>
+              <h3>{t("vp.confirmation.summary_title")}</h3>
               <ul>
-                <li><strong>Destination :</strong> {formData.Destination}</li>
-                <li><strong>Voyageurs :</strong> {formData.nbr}</li>
-                <li><strong>Budget :</strong> {formData.budget.toLocaleString()} DZD</li>
-                <li><strong>Date :</strong> {formData.date}</li>
+                <li><strong>{t("vp.confirmation.dest")}</strong> {formData.Destination}</li>
+                <li><strong>{t("vp.confirmation.pax")}</strong> {formData.nbr}</li>
+                <li dir="ltr"><strong>{t("vp.confirmation.budget")}</strong> {formData.budget.toLocaleString()} DZD</li>
+                <li><strong>{t("vp.confirmation.date")}</strong> {formData.date}</li>
               </ul>
             </div>
             <div className="confirmation-buttons">
-              <button className="home-btn" onClick={() => (window.location.href = "/")}>Accueil</button>
-              <button className="new-btn" onClick={resetForm}>Nouvelle demande</button>
+              <button className="home-btn" onClick={() => navigate("/")}>{t("vp.confirmation.btn_home")}</button>
+              <button className="new-btn" onClick={resetForm}>{t("vp.confirmation.btn_new")}</button>
             </div>
           </div>
         )}

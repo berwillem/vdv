@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import qs from "qs";
 import "./NosVoyages.css";
 
-// React Icons
 import {
   FiCalendar,
   FiUsers,
@@ -11,8 +11,8 @@ import {
   FiDollarSign,
   FiChevronLeft,
   FiChevronRight,
-  FiFilter, // Ajouté pour le bouton mobile
-  FiX,      // Ajouté pour fermer le drawer
+  FiFilter,
+  FiX,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -34,17 +34,16 @@ const RangeFilter = ({ label, icon, value, setValue, min, max, step = 1, formatV
 );
 
 const NosVoyages = () => {
+  const { t, i18n } = useTranslation();
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // État pour le mobile
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // --- States des Filtres ---
   const [searchName, setSearchName] = useState("");
   const [maxPrice, setMaxPrice] = useState(1000000);
   const [startDate, setStartDate] = useState("");
   const [numPersons, setNumPersons] = useState(1);
 
-  // --- States Pagination ---
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ page: 1, pageCount: 1 });
 
@@ -56,7 +55,7 @@ const NosVoyages = () => {
           ...(searchName && { name: { $contains: searchName } }),
           price: { $lte: maxPrice },
         },
-        pagination: { page, pageSize: 20 }, // Augmenté pour le filtrage JS
+        pagination: { page, pageSize: 20 },
         populate: ["image", "disponibilite"],
       }, { encodeValuesOnly: true });
 
@@ -88,27 +87,26 @@ const NosVoyages = () => {
     e.preventDefault();
     setPage(1);
     fetchTrips();
-    setIsDrawerOpen(false); // Ferme le menu sur mobile après recherche
+    setIsDrawerOpen(false);
   };
 
   const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-  // Composant interne pour éviter la répétition du formulaire
   const FiltersContent = () => (
     <form onSubmit={handleSearch}>
       <div className="filter-group">
-        <label className="filter-label"><FiMapPin className="icon-inline" /> Destination</label>
+        <label className="filter-label"><FiMapPin className="icon-inline" /> {t("trips.dest_label")}</label>
         <input
           type="text"
           className="filter-input"
-          placeholder="Où voulez-vous aller ?"
+          placeholder={t("trips.search_placeholder")}
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
       </div>
 
       <div className="filter-group">
-        <label className="filter-label"><FiCalendar className="icon-inline" /> Date de départ</label>
+        <label className="filter-label"><FiCalendar className="icon-inline" /> {t("trips.date_label")}</label>
         <input
           type="date"
           className="filter-input"
@@ -118,7 +116,7 @@ const NosVoyages = () => {
       </div>
 
       <div className="filter-group">
-        <label className="filter-label"><FiUsers className="icon-inline" /> Voyageurs</label>
+        <label className="filter-label"><FiUsers className="icon-inline" /> {t("trips.pax_label")}</label>
         <input
           type="number"
           min="1"
@@ -129,7 +127,7 @@ const NosVoyages = () => {
       </div>
 
       <RangeFilter
-        label="Budget Max"
+        label={t("trips.budget_label")}
         icon={<FiDollarSign className="icon-inline" />}
         value={maxPrice}
         setValue={setMaxPrice}
@@ -139,7 +137,7 @@ const NosVoyages = () => {
         formatValue={(val) => `${formatNumber(val)} DZD`}
       />
 
-      <button type="submit" className="search-btn">Rechercher</button>
+      <button type="submit" className="search-btn">{t("trips.btn_search")}</button>
     </form>
   );
 
@@ -147,17 +145,15 @@ const NosVoyages = () => {
     <div className="nosvoyages-container">
       <div className="hero" />
 
-      {/* Bouton Flottant Mobile */}
       <button className="mobile-filter-btn" onClick={() => setIsDrawerOpen(true)}>
-        <FiFilter /> Filtrer
+        <FiFilter /> {t("trips.mobile_filter")}
       </button>
 
-      {/* Drawer Mobile */}
       {isDrawerOpen && (
         <div className="mobile-drawer-overlay" onClick={() => setIsDrawerOpen(false)}>
           <div className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="drawer-header">
-              <h2 className="filters-title">Filtres de recherche</h2>
+              <h2 className="filters-title">{t("trips.filters_title")}</h2>
               <button className="close-drawer" onClick={() => setIsDrawerOpen(false)}>
                 <FiX size={24} />
               </button>
@@ -168,16 +164,15 @@ const NosVoyages = () => {
       )}
 
       <div className="content-wrapper">
-        {/* Filtres Desktop */}
         <aside className="filters-card desktop-filters">
-          <h2 className="filters-title">Filtres</h2>
+          <h2 className="filters-title">{t("trips.filters_title")}</h2>
           <FiltersContent />
         </aside>
 
         <section className="trips-grid-container">
           <div className="trips-grid">
             {loading ? (
-              <div className="loading-state">Recherche en cours...</div>
+              <div className="loading-state">{t("trips.loading")}</div>
             ) : trips.length > 0 ? (
               trips.map((trip) => {
                 const bestOption = trip.disponibilite.find(disp => {
@@ -201,27 +196,26 @@ const NosVoyages = () => {
                         <p className="trip-description">{trip.description}</p>
                         <div className="trip-meta">
                           <span className="meta-item">
-                            <FiCalendar /> {new Date(bestOption.date_depart).toLocaleDateString()}
+                            <FiCalendar /> {new Date(bestOption.date_depart).toLocaleDateString(i18n.language)}
                           </span>
                           <span className={`meta-item ${remaining < 3 ? 'low-stock' : ''}`}>
-                            <FiUsers /> {remaining} places restantes
+                            <FiUsers /> {remaining} {t("trips.card.places_left")}
                           </span>
                         </div>
                       </div>
                       <div className="trip-bottom">
                         <span className="trip-price">{formatNumber(trip.price)} DZD</span>
-                        <button className="more-btn">Détails</button>
+                        <button className="more-btn">{t("trips.card.details")}</button>
                       </div>
                     </div>
                   </Link>
                 );
               })
             ) : (
-              <div className="no-results">Aucun voyage ne correspond à vos critères.</div>
+              <div className="no-results">{t("trips.no_results")}</div>
             )}
           </div>
 
-          {/* Pagination */}
           {!loading && pagination.pageCount > 1 && (
             <div className="pagination-wrapper">
               <button disabled={page === 1} onClick={() => setPage(page - 1)} className="page-nav-btn"><FiChevronLeft /></button>

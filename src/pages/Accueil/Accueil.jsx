@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { MapPin, Users, Calendar, Euro } from "lucide-react";
 import Swal from "sweetalert2";
@@ -14,7 +15,6 @@ import { Perso } from "../../services/perso";
 
 const STRAPI_URL = "http://localhost:1337";
 
-// --- COMPOSANT FAQ ITEM ---
 const FAQItem = ({ question, answer, isOpen, onToggle }) => (
   <div className={`faq-item ${isOpen ? "open" : ""}`}>
     <button className="faq-question" onClick={onToggle}>
@@ -32,16 +32,15 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => (
 );
 
 const Accueil = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [openFAQIndex, setOpenFAQIndex] = useState(0);
   const [destinations, setDestinations] = useState([]);
   
-  // --- ÉTATS PAGINATION ---
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  // --- ÉTAT FORMULAIRE ---
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     Destination: "", 
@@ -50,7 +49,8 @@ const Accueil = () => {
     budget: ""
   });
 
-  // --- CHARGEMENT INITIAL ---
+  const faqs = t("home.faq.items", { returnObjects: true }) || [];
+
   useEffect(() => {
     fetchVoyages(1);
   }, []);
@@ -61,7 +61,6 @@ const Accueil = () => {
       .then((res) => {
         const newData = res.data.data;
         const meta = res.data.meta.pagination;
-
         setDestinations(prev => (pageNum === 1 ? newData : [...prev, ...newData]));
         setHasMore(meta.page < meta.pageCount);
         setLoadingMore(false);
@@ -78,25 +77,21 @@ const Accueil = () => {
     fetchVoyages(nextPage);
   };
 
-  // --- GESTION DU FORMULAIRE AVEC SWEETALERT ---
   const handlePersoSubmit = async (e) => {
     e.preventDefault();
-    
-    const token = localStorage.getItem("jwt"); // Vérifie le token (jwt ou token selon ton app)
+    const token = localStorage.getItem("jwt");
 
     if (!token) {
       Swal.fire({
         icon: "info",
-        title: "Connexion requise",
-        text: "Vous devez être connecté pour envoyer une demande personnalisée.",
+        title: t("home.alerts.login_required_title"),
+        text: t("home.alerts.login_required_text"),
         showCancelButton: true,
-        confirmButtonText: "Se connecter",
-        cancelButtonText: "Plus tard",
+        confirmButtonText: t("home.alerts.login_btn"),
+        cancelButtonText: t("home.alerts.later_btn"),
         confirmButtonColor: "#1a1c3d",
       }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/SignIn");
-        }
+        if (result.isConfirmed) navigate("/SignIn");
       });
       return;
     }
@@ -104,22 +99,19 @@ const Accueil = () => {
     setIsSubmitting(true);
     try {
       await Perso(formData, null, token);
-      
       Swal.fire({
         icon: "success",
-        title: "Demande envoyée !",
-        text: "Votre projet de voyage a été transmis à nos conseillers.",
+        title: t("home.alerts.success_title"),
+        text: t("home.alerts.success_text"),
         confirmButtonColor: "#1a1c3d",
         timer: 3500
       });
-
       setFormData({ Destination: "", nbr: 1, date: "", budget: "" });
     } catch (err) {
-      console.error("Erreur envoi Perso:", err);
       Swal.fire({
         icon: "error",
-        title: "Erreur",
-        text: "Impossible d'envoyer la demande. Veuillez réessayer.",
+        title: t("home.alerts.error_title"),
+        text: t("home.alerts.error_text"),
         confirmButtonColor: "#d33",
       });
     } finally {
@@ -127,41 +119,34 @@ const Accueil = () => {
     }
   };
 
-  const faqs = [
-    { question: "Comment puis-je réserver un voyage ?", answer: "Sélectionnez votre destination, choisissez vos dates et cliquez sur réserver pour finaliser votre paiement." },
-    { question: "Dois-je payer la totalité immédiatement ?", answer: "Non, un acompte est possible selon les conditions spécifiques de chaque voyage." },
-    { question: "Qu'est-ce qu'un voyage personnalisé ?", answer: "C'est une offre sur mesure où vous définissez votre budget et vos préférences, et nous créons l'itinéraire pour vous." }
-  ];
-
   return (
     <div className="accueil-page">
-      {/* SECTION HERO & FORMULAIRE */}
       <section className="hero-form-section">
         <div className="hero-wrapper">
           <video src={HeroV} className="hero-bg" autoPlay loop muted playsInline></video>
           <div className="form-card">
-            <h2 className="form-title">Voyage personnalisé</h2>
+            <h2 className="form-title">{t("home.hero.title")}</h2>
             <form className="custom-form" onSubmit={handlePersoSubmit}>
               <div className="form-row">
                 <div className="input-wrapper">
-                  <label>Destination</label>
+                  <label>{t("home.hero.dest_label")}</label>
                   <div className="input-with-icon">
                     <MapPin size={18} />
                     <input 
-                      type="text" placeholder="Où ?" value={formData.Destination}
+                      type="text" placeholder={t("home.hero.dest_placeholder")} value={formData.Destination}
                       onChange={(e) => setFormData({...formData, Destination: e.target.value})} required
                     />
                   </div>
                 </div>
                 <div className="input-wrapper">
-                  <label>Personnes</label>
+                  <label>{t("home.hero.pax_label")}</label>
                   <div className="input-with-icon">
                     <Users size={18} />
                     <input type="number" min="1" value={formData.nbr} onChange={(e) => setFormData({...formData, nbr: e.target.value})} />
                   </div>
                 </div>
                 <div className="input-wrapper">
-                  <label>Date</label>
+                  <label>{t("home.hero.date_label")}</label>
                   <div className="input-with-icon">
                     <Calendar size={18} />
                     <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} />
@@ -170,7 +155,7 @@ const Accueil = () => {
               </div>
               <div className="form-row budget-row">
                 <div className="input-wrapper">
-                  <label>Budget souhaité</label>
+                  <label>{t("home.hero.budget_label")}</label>
                   <div className="input-with-icon">
                     <Euro size={18} />
                     <input type="number" placeholder="DZD" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
@@ -178,7 +163,7 @@ const Accueil = () => {
                 </div>
                 <div className="submit-wrapper">
                   <button type="submit" className="submit-button" disabled={isSubmitting}>
-                    {isSubmitting ? "Traitement..." : "Envoyer ma demande"}
+                    {isSubmitting ? t("home.hero.btn_loading") : t("home.hero.btn_send")}
                   </button>
                 </div>
               </div>
@@ -187,29 +172,24 @@ const Accueil = () => {
         </div>
       </section>
 
-      {/* SECTION DESTINATIONS */}
       <section className="destinations-section">
         <div className="destinations-container">
           <div className="destinations-header">
-            <span className="section-badge">Notre Sélection</span>
-            <h2 className="section-title">Destinations populaires</h2>
+            <span className="section-badge">{t("home.destinations.badge")}</span>
+            <h2 className="section-title">{t("home.destinations.title")}</h2>
           </div>
           
           <div className="destinations-grid">
             {destinations.map((dest) => (
               <Link to={`/details/${dest.documentId}`} key={dest.id} className="destination-card">
                 <div className="card-image">
-                  <img 
-                    src={dest.image?.[0] ? `${STRAPI_URL}${dest.image[0].url}` : "https://via.placeholder.com/400"} 
-                    alt={dest.name} 
-                  />
+                  <img src={dest.image?.[0] ? `${STRAPI_URL}${dest.image[0].url}` : "https://via.placeholder.com/400"} alt={dest.name} />
                 </div>
                 <div className="card-content">
                   <h3>{dest.name}</h3>
                   <p>{dest.description?.substring(0, 85)}...</p>
                   <div className="card-footer">
-                    <span className="price">{dest.price?.toLocaleString()} DZD</span>
-               
+                    <span className="price">{dest.price?.toLocaleString()} {t("home.destinations.currency")}</span>
                   </div>
                 </div>
               </Link>
@@ -219,20 +199,19 @@ const Accueil = () => {
           {hasMore && (
             <div className="voir-plus-wrapper">
               <button className="voir-plus-btn" onClick={loadMore} disabled={loadingMore}>
-                {loadingMore ? "Chargement..." : "Charger plus de destinations"}
+                {loadingMore ? t("home.destinations.loading") : t("home.destinations.load_more")}
               </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* SECTION PROMO FAMILLE */}
       <section className="family-promo-section">
         <div className="family-promo-container">
           <div className="family-content">
-            <h2 className="family-title">Des réductions exclusives <br /> pour les voyages en famille</h2>
-            <p>Profitez de tarifs préférentiels pour vos enfants et des activités adaptées.</p>
-            <button className="family-cta">Découvrir les offres</button>
+            <h2 className="family-title">{t("home.promo.title")}</h2>
+            <p>{t("home.promo.subtitle")}</p>
+            <button className="family-cta">{t("home.promo.cta")}</button>
           </div>
           <div className="family-image-wrapper">
             <img src={Discount} alt="Promo" className="family-image" />
@@ -240,19 +219,18 @@ const Accueil = () => {
         </div>
       </section>
 
-      {/* SECTION FAQ */}
       <section className="faq-section">
         <div className="faq-container">
           <div className="faq-header">
-            <span className="faq-badge">Aide</span>
-            <h2 className="faq-title">Questions fréquentes</h2>
+            <span className="faq-badge">{t("home.faq.badge")}</span>
+            <h2 className="faq-title">{t("home.faq.title")}</h2>
           </div>
           <div className="faq-list">
             {faqs.map((item, index) => (
               <FAQItem 
                 key={index} 
-                question={item.question} 
-                answer={item.answer}
+                question={item.q} 
+                answer={item.a}
                 isOpen={openFAQIndex === index} 
                 onToggle={() => setOpenFAQIndex(openFAQIndex === index ? -1 : index)} 
               />

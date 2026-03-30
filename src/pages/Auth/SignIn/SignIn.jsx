@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./SignIn.css";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const [identifier, setIdentifier] = useState(""); // Email ou Username
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -14,31 +18,26 @@ const Login = () => {
   const [showForgot, setShowForgot] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
 
-  const navigate = useNavigate();
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      // Strapi utilise 'identifier' pour l'email ou le username
       const response = await axios.post("http://localhost:1337/api/auth/local", {
         identifier: identifier,
         password: password,
       });
 
-      // Sauvegarde du JWT et des infos utilisateur
       localStorage.setItem("jwt", response.data.jwt);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      navigate("/"); // Redirection vers l'accueil
+      navigate("/");
     } catch (err) {
-      console.error("Erreur de connexion:", err.response);
       setError(
         err.response?.data?.error?.message === "Invalid identifier or password"
-          ? "Email ou mot de passe incorrect."
-          : "Une erreur est survenue."
+          ? t("login.errors.invalid")
+          : t("login.errors.generic")
       );
     } finally {
       setLoading(false);
@@ -51,11 +50,11 @@ const Login = () => {
       await axios.post("http://localhost:1337/api/auth/forgot-password", {
         email: resetEmail,
       });
-      alert(`Un lien de réinitialisation a été envoyé à ${resetEmail}`);
+      alert(t("login.modal.success_alert", { email: resetEmail }));
       setShowForgot(false);
       setResetEmail("");
     } catch (err) {
-      alert("Erreur lors de l'envoi de l'email.");
+      alert(t("login.errors.reset_error"));
     }
   };
 
@@ -72,19 +71,17 @@ const Login = () => {
       <div className="login-hero" />
 
       <div className="login-card">
-        <h1 className="login-title">Bienvenue</h1>
-        <p className="login-subtitle">
-          Connectez-vous à votre compte Village de Voyage
-        </p>
+        <h1 className="login-title">{t("login.title")}</h1>
+        <p className="login-subtitle">{t("login.subtitle")}</p>
 
         {error && <p className="error-banner">{error}</p>}
 
         <form className="login-form" onSubmit={handleLogin}>
           <div className="form-group">
-            <label>Email</label>
+            <label>{t("login.fields.email")}</label>
             <input
               type="email"
-              placeholder="votre@email.com"
+              placeholder={t("login.fields.placeholder_email")}
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               required
@@ -92,7 +89,7 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <label>Mot de passe</label>
+            <label>{t("login.fields.password")}</label>
             <input
               type="password"
               placeholder="••••••••"
@@ -108,43 +105,43 @@ const Login = () => {
               className="link-btn"
               onClick={() => setShowForgot(true)}
             >
-              Mot de passe oublié ?
+              {t("login.forgot_link")}
             </button>
           </div>
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Connexion..." : "Se connecter"}
+            {loading ? t("login.buttons.loading") : t("login.buttons.submit")}
           </button>
 
-          <div className="separator"><span>ou</span></div>
+          <div className="separator"><span>{t("login.separator")}</span></div>
 
           <button type="button" className="google-btn" onClick={handleGoogleLogin}>
             <FcGoogle className="google-icon" />
-            Continuer avec Google
+            {t("login.buttons.google")}
           </button>
         </form>
 
         <p className="signup-text">
-          Pas de compte ?{" "}
-          <a href="/register" className="link-btn">Inscrivez-vous</a>
+          {t("login.footer.text")}{" "}
+          <Link to="/register" className="link-btn">
+            {t("login.footer.link")}
+          </Link>
         </p>
       </div>
 
       {showForgot && (
         <div className="modal-overlay" onClick={() => setShowForgot(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <h2 className="modal-title">Réinitialiser le mot de passe</h2>
-            <p className="modal-subtitle">
-              Entrez votre email pour recevoir un lien de réinitialisation
-            </p>
+            <h2 className="modal-title">{t("login.modal.title")}</h2>
+            <p className="modal-subtitle">{t("login.modal.subtitle")}</p>
             <form onSubmit={handleForgotSubmit}>
               <div className="form-group">
-                <label>Email</label>
+                <label>{t("login.fields.email")}</label>
                 <input
                   type="email"
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
-                  placeholder="votre@email.com"
+                  placeholder={t("login.fields.placeholder_email")}
                   required
                 />
               </div>
@@ -154,10 +151,10 @@ const Login = () => {
                   className="cancel-btn"
                   onClick={() => setShowForgot(false)}
                 >
-                  Annuler
+                  {t("login.modal.btn_cancel")}
                 </button>
                 <button type="submit" className="submit-btn">
-                  Envoyer
+                  {t("login.modal.btn_send")}
                 </button>
               </div>
             </form>

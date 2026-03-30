@@ -36,7 +36,7 @@ const Navbar = () => {
     { name: t("nav.about"), path: "/a-propos" },
     { name: t("nav.trips"), path: "/nos-voyages" },
     { name: t("nav.customTrip"), path: "/voyage-personnalise" },
-    { name: "Entreprise", path: "/entreprise" },
+    { name: t("nav.Entreprise"), path: "/entreprise" },
     { name: t("nav.contact"), path: "/contact" },
   ];
 

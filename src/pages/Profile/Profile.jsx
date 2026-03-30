@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { User, Package, Send, LogOut, Calendar, MapPin } from "lucide-react";
 
 import "./Profile.css";
 import { GetUserPersoTrips, GetUserReservations } from "../../services/voyages";
 
 const Profile = () => {
+  const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState("info");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [reservations, setReservations] = useState([]);
@@ -22,8 +24,6 @@ const Profile = () => {
         .then(([resRes, resPerso]) => {
           setReservations(resRes.data.data);
           setPersoTrips(resPerso.data.data);
-          console.log(resRes.data.data, resPerso.data.data);
-          
           setLoading(false);
         })
         .catch((err) => {
@@ -38,7 +38,12 @@ const Profile = () => {
     window.location.href = "/SignIn";
   };
 
-  if (!user) return <div className="profile-container">Veuillez vous connecter.</div>;
+  // Formatage de date selon la langue
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString(i18n.language);
+  };
+
+  if (!user) return <div className="profile-container">{t("profile.not_logged_in")}</div>;
 
   return (
     <div className="profile-page">
@@ -51,35 +56,35 @@ const Profile = () => {
           </div>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
-          <LogOut size={18} /> Déconnexion
+          <LogOut size={18} /> {t("profile.logout")}
         </button>
       </div>
 
       <div className="profile-tabs">
         <button className={activeTab === "info" ? "active" : ""} onClick={() => setActiveTab("info")}>
-          <User size={18} /> Mon Compte
+          <User size={18} /> {t("profile.tabs.account")}
         </button>
         <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
-          <Package size={18} /> Réservations ({reservations.length})
+          <Package size={18} /> {t("profile.tabs.reservations")} ({reservations.length})
         </button>
         <button className={activeTab === "perso" ? "active" : ""} onClick={() => setActiveTab("perso")}>
-          <Send size={18} /> Demandes Perso ({persoTrips.length})
+          <Send size={18} /> {t("profile.tabs.custom_trips")} ({persoTrips.length})
         </button>
       </div>
 
       <div className="tab-content">
         {loading ? (
-          <p>Chargement...</p>
+          <p>{t("profile.loading")}</p>
         ) : (
           <>
             {/* ONGLET INFO COMPTE */}
             {activeTab === "info" && (
               <div className="info-card">
-                <h3>Informations personnelles</h3>
+                <h3>{t("profile.info.title")}</h3>
                 <div className="info-grid">
-                  <div className="info-item"><span>Nom d'utilisateur</span><strong>{user.username}</strong></div>
-                  <div className="info-item"><span>Email</span><strong>{user.email}</strong></div>
-                  <div className="info-item"><span>Membre depuis</span><strong>{new Date(user.createdAt).toLocaleDateString()}</strong></div>
+                  <div className="info-item"><span>{t("profile.info.username")}</span><strong>{user.username}</strong></div>
+                  <div className="info-item"><span>{t("profile.info.email")}</span><strong>{user.email}</strong></div>
+                  <div className="info-item"><span>{t("profile.info.member_since")}</span><strong>{formatDate(user.createdAt)}</strong></div>
                 </div>
               </div>
             )}
@@ -91,15 +96,15 @@ const Profile = () => {
                   <div key={res.id} className="item-card">
                     <div className="item-details">
                       <h4>{res.voyage?.name || "Voyage"}</h4>
-                      <p><Calendar size={14} /> Réservé le : {new Date(res.createdAt).toLocaleDateString()}</p>
-                      <p>Voyageurs : {res.nb_personnes}</p>
+                      <p><Calendar size={14} /> {t("profile.reservations.date")} {formatDate(res.createdAt)}</p>
+                      <p>{t("profile.reservations.travelers")} {res.nb_personnes}</p>
                     </div>
                     <div className="item-status status-en_attente">
-                      {res.statut || "En attente"}
+                      {res.statut || t("profile.reservations.status_pending")}
                     </div>
                     <div className="item-price">{res.montant_total?.toLocaleString()} DZD</div>
                   </div>
-                )) : <p>Aucune réservation pour le moment.</p>}
+                )) : <p>{t("profile.reservations.none")}</p>}
               </div>
             )}
 
@@ -110,12 +115,12 @@ const Profile = () => {
                   <div key={trip.id} className="item-card">
                     <div className="item-details">
                       <h4><MapPin size={16} /> {trip.Destination}</h4>
-                      <p>Date souhaitée : {trip.date ? new Date(trip.date).toLocaleDateString() : "Non précisée"}</p>
-                      <p>Budget : {trip.budget?.toLocaleString()} DZD</p>
+                      <p>{t("profile.custom.desired_date")} {trip.date ? formatDate(trip.date) : t("profile.custom.unspecified")}</p>
+                      <p>{t("profile.custom.budget")} {trip.budget?.toLocaleString()} DZD</p>
                     </div>
-                    <div className="item-status status-envoye">Envoyé</div>
+                    <div className="item-status status-envoye">{t("profile.custom.status_sent")}</div>
                   </div>
-                )) : <p>Aucune demande personnalisée.</p>}
+                )) : <p>{t("profile.custom.none")}</p>}
               </div>
             )}
           </>

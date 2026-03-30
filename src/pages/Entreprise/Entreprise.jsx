@@ -1,9 +1,11 @@
 import { useState } from "react";
-import Swal from "sweetalert2"; // Import SweetAlert
+import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 import "./Entreprise.css";
-import { PostContactEntreprise } from "../../services/entreprise"; // Import du service
+import { PostContactEntreprise } from "../../services/entreprise";
 
 const Entreprise = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     nom: "",
@@ -30,15 +32,13 @@ const Entreprise = () => {
     try {
       await PostContactEntreprise(formData);
 
-      // Succès
       Swal.fire({
         icon: "success",
-        title: "Demande envoyée !",
-        text: "Votre demande de devis entreprise a bien été reçue. Nous reviendrons vers vous très prochainement.",
+        title: t("entreprise.alerts.success_title"),
+        text: t("entreprise.alerts.success_text"),
         confirmButtonColor: "#1a1c3d",
       });
 
-      // Reset du formulaire
       setFormData({
         nom: "",
         prenom: "",
@@ -56,8 +56,8 @@ const Entreprise = () => {
       console.error("Erreur envoi entreprise:", error);
       Swal.fire({
         icon: "error",
-        title: "Erreur",
-        text: "Une erreur est survenue lors de l'envoi. Veuillez vérifier vos informations ou réessayer plus tard.",
+        title: t("entreprise.alerts.error_title"),
+        text: t("entreprise.alerts.error_text"),
       });
     } finally {
       setLoading(false);
@@ -68,8 +68,8 @@ const Entreprise = () => {
     <div className="entreprise-page">
       <div className="entreprise-hero"></div>
       <div className="entreprise-label">
-        <div className="badge">Entreprise</div>
-        <h1 className="hero-title">Encadrement complet</h1>
+        <div className="badge">{t("entreprise.hero.badge")}</div>
+        <h1 className="hero-title">{t("entreprise.hero.title")}</h1>
       </div>
 
       <div className="encadrement-section">
@@ -81,73 +81,73 @@ const Entreprise = () => {
       </div>
 
       <div className="formulaire-section">
-        <h2 className="formulaire-title">Formulaire de demande</h2>
+        <h2 className="formulaire-title">{t("entreprise.form.title")}</h2>
 
         <form onSubmit={handleSubmit} className="entreprise-form">
           <div className="form-row">
             <div className="form-group">
-              <label>Nom</label>
+              <label>{t("entreprise.form.nom")}</label>
               <input type="text" name="nom" value={formData.nom} onChange={handleChange} required disabled={loading} />
             </div>
             <div className="form-group">
-              <label>Prénom</label>
+              <label>{t("entreprise.form.prenom")}</label>
               <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} required disabled={loading} />
             </div>
           </div>
 
           <div className="form-group full-width">
-            <label>Entreprise</label>
+            <label>{t("entreprise.form.company")}</label>
             <input type="text" name="entreprise" value={formData.entreprise} onChange={handleChange} required disabled={loading} />
           </div>
 
           <div className="form-group full-width">
-            <label>Domaine d'activité</label>
+            <label>{t("entreprise.form.activity")}</label>
             <input type="text" name="domaine" value={formData.domaine} onChange={handleChange} required disabled={loading} />
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label>Email</label>
+              <label>{t("entreprise.form.email")}</label>
               <input type="email" name="email" value={formData.email} onChange={handleChange} required disabled={loading} />
             </div>
             <div className="form-group">
-              <label>Téléphone</label>
+              <label>{t("entreprise.form.phone")}</label>
               <input type="tel" name="telephone" value={formData.telephone} onChange={handleChange} required disabled={loading} />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label>Date de l'événement</label>
+              <label>{t("entreprise.form.event_date")}</label>
               <input type="date" name="dateEvenement" value={formData.dateEvenement} onChange={handleChange} required disabled={loading} />
             </div>
             <div className="form-group">
-              <label>Nombre de jours</label>
+              <label>{t("entreprise.form.days_count")}</label>
               <input type="number" name="nombreJours" value={formData.nombreJours} onChange={handleChange} min="1" required disabled={loading} />
             </div>
           </div>
 
           <div className="form-group full-width radio-group">
-            <label>Souhaitez-vous inclure un transport en bus ?</label>
+            <label>{t("entreprise.form.transport_q")}</label>
             <div className="radio-options">
               <label>
                 <input type="radio" name="transportBus" value="oui" checked={formData.transportBus === "oui"} onChange={handleChange} disabled={loading} />
-                Oui
+                {t("entreprise.form.yes")}
               </label>
               <label>
                 <input type="radio" name="transportBus" value="non" checked={formData.transportBus === "non"} onChange={handleChange} disabled={loading} />
-                Non
+                {t("entreprise.form.no")}
               </label>
             </div>
           </div>
 
           <div className="form-group full-width">
-            <label>Plus de détails</label>
-            <textarea name="details" value={formData.details} onChange={handleChange} rows="6" placeholder="Besoins spécifiques, type d'activités souhaitées..." disabled={loading} />
+            <label>{t("entreprise.form.details")}</label>
+            <textarea name="details" value={formData.details} onChange={handleChange} rows="6" placeholder={t("entreprise.form.details_placeholder")} disabled={loading} />
           </div>
 
           <button type="submit" className="envoyer-btn" disabled={loading}>
-            {loading ? "Envoi en cours..." : "Envoyer ma demande"}
+            {loading ? t("entreprise.form.sending") : t("entreprise.form.btn_send")}
           </button>
         </form>
       </div>

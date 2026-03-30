@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom"; 
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "./Register.css";
 import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -13,8 +17,6 @@ const Register = () => {
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const navigate = useNavigate();
 
   const handleConfirmPasswordChange = (e) => {
     const value = e.target.value;
@@ -28,7 +30,7 @@ const Register = () => {
     setPasswordMatch(value === confirmPassword || confirmPassword === "");
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -40,7 +42,7 @@ const handleSubmit = async (e) => {
     setLoading(true);
 
     try {
-      // ÉTAPE 1 : Inscription avec les champs standards uniquement
+      // ÉTAPE 1 : Inscription
       const registerResponse = await axios.post("http://localhost:1337/api/auth/local/register", {
         username: email.toLowerCase().trim(),
         email: email.toLowerCase().trim(),
@@ -49,8 +51,7 @@ const handleSubmit = async (e) => {
 
       const { jwt, user } = registerResponse.data;
 
-      // ÉTAPE 2 : Mise à jour du champ 'phone' immédiatement après
-      // On utilise le JWT tout juste reçu pour s'autoriser la modif
+      // ÉTAPE 2 : Mise à jour du champ 'phone'
       await axios.put(
         `http://localhost:1337/api/users/${user.id}`,
         { phone: String(phone).trim() },
@@ -61,16 +62,19 @@ const handleSubmit = async (e) => {
         }
       );
 
-      // Sauvegarde finale des infos complètes
       localStorage.setItem("jwt", jwt);
       localStorage.setItem("user", JSON.stringify({ ...user, phone }));
 
-      alert("Inscription réussie !");
+      alert(t("register.success"));
       navigate("/"); 
     } catch (err) {
-      console.error("Détails erreur Strapi:", err.response?.data?.error);
-      const message = err.response?.data?.error?.message;
-      setError(message || "Une erreur est survenue lors de l'inscription.");
+      const strapiError = err.response?.data?.error?.message;
+      // Traduction spécifique pour l'email déjà pris
+      if (strapiError === "Email or Username are already taken") {
+        setError(t("register.errors.email_taken"));
+      } else {
+        setError(t("register.errors.generic"));
+      }
     } finally {
       setLoading(false);
     }
@@ -89,38 +93,36 @@ const handleSubmit = async (e) => {
       <div className="register-hero" />
 
       <div className="register-card">
-        <h1 className="register-title">Créer un compte</h1>
-        <p className="register-subtitle">
-          Rejoignez Village de Voyage et réservez vos rêves
-        </p>
+        <h1 className="register-title">{t("register.title")}</h1>
+        <p className="register-subtitle">{t("register.subtitle")}</p>
 
         {error && <div className="error-banner">{error}</div>}
 
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email</label>
+            <label>{t("register.fields.email")}</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="votre@email.com"
+              placeholder={t("register.fields.placeholders.email")}
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Téléphone</label>
+            <label>{t("register.fields.phone")}</label>
             <input
-              type="tel" // Garde le clavier numérique mais envoie du texte
+              type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="0755555555"
+              placeholder={t("register.fields.placeholders.phone")}
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Mot de passe</label>
+            <label>{t("register.fields.password")}</label>
             <input
               type="password"
               value={password}
@@ -131,7 +133,7 @@ const handleSubmit = async (e) => {
           </div>
 
           <div className="form-group">
-            <label>Confirmer le mot de passe</label>
+            <label>{t("register.fields.confirm_password")}</label>
             <input
               type="password"
               value={confirmPassword}
@@ -141,24 +143,24 @@ const handleSubmit = async (e) => {
               className={!passwordMatch ? "input-error" : ""}
             />
             {!passwordMatch && (
-              <p className="field-error">Les mots de passe ne correspondent pas</p>
+              <p className="field-error">{t("register.errors.match")}</p>
             )}
           </div>
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Création en cours..." : "S'inscrire"}
+            {loading ? t("register.buttons.loading") : t("register.buttons.submit")}
           </button>
 
-          <div className="separator"><span>ou</span></div>
+          <div className="separator"><span>{t("register.separator")}</span></div>
 
           <button type="button" className="google-btn" onClick={handleGoogleLogin}>
             <FcGoogle className="google-icon" />
-            Continuer avec Google
+            {t("register.buttons.google")}
           </button>
         </form>
 
         <p className="login-text">
-          Déjà un compte ? <a href="/signin" className="link-btn">Connectez-vous</a>
+          {t("register.footer.text")} <Link to="/signin" className="link-btn">{t("register.footer.link")}</Link>
         </p>
       </div>
     </div>

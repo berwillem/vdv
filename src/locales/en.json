@@ -4,7 +4,9 @@
     "about": "About Us",
     "trips": "Our Trips",
     "customTrip": "Custom Trip",
-    "contact": "Contact"
+    "contact": "Contact",
+     "Entreprise":"Company"
+    
   },
   "auth": {
     "profile": "Profile",
@@ -12,5 +14,426 @@
   },
   "common": {
     "language": "Language"
+  },
+  "about": {
+    "breadcrumb": "About",
+    "main_title": "Travel Village",
+    "history": {
+      "title": "History",
+      "p1": "Since 2014, our agency has been supporting travelers in creating unique and authentic experiences. Composed of a young, passionate, and dynamic team, we put all our energy into serving your desires for discovery.",
+      "p2": "At the head of the agency is a graduate of the National Higher School of Tourism, whose expertise and passion for travel have built a solid, innovative, and customer-oriented company.",
+      "p3": "Over the years, we have organized trips to more than 15 international destinations and designed more than 15 national circuits, tailored to meet the expectations of even the most demanding travelers.",
+      "p4": "Our philosophy is simple: be at the client's service, offer them the best plan at the best price, and guarantee a fluid, secure, and memorable travel experience.",
+      "p5": "Whether you dream of adventure, relaxation, or a tailor-made stay, we are here to support you at every stage. Your satisfaction is our priority, and your trip is our passion."
+    },
+    "values": {
+      "title": "Company Values",
+      "items": [
+        {
+          "bold": "1. Service Excellence",
+          "text": "Every trip deserves special attention. We make every effort to provide impeccable services, from the first contact until the client's return."
+        },
+        {
+          "bold": "2. Customer Satisfaction",
+          "text": "Your satisfaction is our absolute priority. We listen, advise, and adapt every experience based on your needs and desires."
+        },
+        {
+          "bold": "3. Innovation & Creativity",
+          "text": "We don't just offer trips: we create unique experiences. Our team constantly innovates to provide you with the best ideas and offers."
+        },
+        {
+          "bold": "4. Passion for Travel",
+          "text": "This is our driving force. Because we love what we do, we are able to create unforgettable experiences for those who travel with us."
+        }
+      ]
+    },
+    "vision": {
+      "title": "Our Vision at Travel Village",
+      "text": "To become a benchmark agency in national and international tourism, recognized for its sense of service, creativity, and ability to offer the best value for money on the market. We aspire to inspire travelers, facilitate their mobility, and help them discover the world with total confidence."
+    },
+    "engagements": {
+      "title": "Our Commitments",
+      "items": [
+        {
+          "bold": "1. Fair and Competitive Prices",
+          "text": "We continuously negotiate the best offers to guarantee attractive rates without compromising on quality."
+        },
+        {
+          "bold": "2. Personalized Support",
+          "text": "Every client is unique. We offer tailor-made advice adapted to your budget, your style, and your expectations."
+        },
+        {
+          "bold": "3. Total Availability",
+          "text": "Our young and dynamic team is always at your service to answer your questions before, during, and after your trip."
+        },
+        {
+          "bold": "4. Safety First",
+          "text": "We select reliable partners and rigorously monitor every stage of the journey."
+        },
+        {
+          "bold": "5. Continuously Improved Customer Experience",
+          "text": "Thanks to your feedback, we optimize our circuits, performances, and services day after day."
+        }
+      ]
+    }
+  },
+  "footer": {
+    "cta_title": "Get ready today for an exciting journey",
+    "cta_desc": "We accompany you every step of the way to design the best travel experiences.",
+    "contact_btn": "Contact Us",
+    "brand_desc": "A leading travel agency specializing in organizing national and international tours with years of expertise.",
+    "support": {
+      "title": "Support",
+      "customer_service": "Customer Service",
+      "faqs": "FAQs",
+      "feedback": "Feedback",
+      "emergency": "Emergency Contact"
+    },
+    "company": {
+      "title": "Company",
+      "location": "Our Location",
+      "about": "About Us",
+      "careers": "Careers",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal",
+      "refund": "Refund Policy",
+      "terms": "Terms & Conditions"
+    }
+  },
+  "contact": {
+    "hero_title": "Contact Us",
+    "hero_subtitle": "We are here to help you organize your next trip",
+    "tabs": {
+      "b2c": "Individuals (B2C)",
+      "b2b": "Corporate (B2B)"
+    },
+    "form": {
+      "b2c_title": "Individual Form",
+      "b2c_subtitle": "Need information or a personalized quote?",
+      "b2b_title": "Business Form",
+      "b2b_subtitle": "Partnerships, business trips, or groups.",
+      "label_name": "Full Name",
+      "label_company": "Company Name",
+      "label_email": "Professional Email",
+      "label_phone": "Phone",
+      "label_site": "Website (optional)",
+      "label_message": "Message / Your Request",
+      "placeholder_name": "Your full name",
+      "placeholder_msg": "Describe your request...",
+      "btn_send": "Send Message",
+      "btn_loading": "Sending..."
+    },
+    "info": {
+      "title": "Contact Info",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Hours",
+      "hours_val": "Mon - Fri: 09:00 AM - 06:00 PM"
+    },
+    "alerts": {
+      "success_b2c_title": "Message Sent!",
+      "success_b2c_text": "Thank you for contacting us. We will get back to you soon.",
+      "success_b2b_title": "Request Registered!",
+      "success_b2b_text": "Our B2B department will analyze your project.",
+      "error_title": "Error",
+      "error_text": "An error occurred. Please try again."
+    }
+  },
+  "profile": {
+    "not_logged_in": "Please log in.",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "tabs": {
+      "account": "My Account",
+      "reservations": "Reservations",
+      "custom_trips": "Custom Trips"
+    },
+    "info": {
+      "title": "Personal Information",
+      "username": "Username",
+      "email": "Email",
+      "member_since": "Member since"
+    },
+    "reservations": {
+      "none": "No reservations at the moment.",
+      "date": "Reserved on:",
+      "travelers": "Travelers:",
+      "status_pending": "Pending"
+    },
+    "custom": {
+      "none": "No custom requests.",
+      "destination": "Destination",
+      "desired_date": "Desired date:",
+      "unspecified": "Not specified",
+      "budget": "Budget:",
+      "status_sent": "Sent"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Custom Trip",
+      "dest_label": "Destination",
+      "dest_placeholder": "Where?",
+      "pax_label": "People",
+      "date_label": "Date",
+      "budget_label": "Desired Budget",
+      "btn_send": "Send Request",
+      "btn_loading": "Processing..."
+    },
+    "destinations": {
+      "badge": "Our Selection",
+      "title": "Popular Destinations",
+      "load_more": "Load more destinations",
+      "loading": "Loading...",
+      "currency": "DZD"
+    },
+    "promo": {
+      "title": "Exclusive discounts \n for family trips",
+      "subtitle": "Enjoy preferential rates for your children and tailored activities.",
+      "cta": "Discover offers"
+    },
+    "faq": {
+      "badge": "Help",
+      "title": "Frequently Asked Questions",
+      "items": [
+        { "q": "How can I book a trip?", "a": "Select your destination, choose your dates, and click book to finalize your payment." },
+        { "q": "Do I have to pay the full amount immediately?", "a": "No, a deposit is possible depending on the specific conditions of each trip." },
+        { "q": "What is a custom trip?", "a": "It is a tailor-made offer where you define your budget and preferences, and we create the itinerary for you." }
+      ]
+    },
+    "alerts": {
+      "login_required_title": "Login Required",
+      "login_required_text": "You must be logged in to send a custom request.",
+      "login_btn": "Sign In",
+      "later_btn": "Later",
+      "success_title": "Request Sent!",
+      "success_text": "Your travel project has been sent to our advisors.",
+      "error_title": "Error",
+      "error_text": "Unable to send the request. Please try again."
+    }
+  },
+  
+  "trips": {
+    "filters_title": "Filters",
+    "search_placeholder": "Where do you want to go?",
+    "dest_label": "Destination",
+    "date_label": "Departure Date",
+    "pax_label": "Travelers",
+    "budget_label": "Max Budget",
+    "btn_search": "Search",
+    "mobile_filter": "Filter",
+    "loading": "Searching...",
+    "no_results": "No trips match your criteria.",
+    "card": {
+      "places_left": "places left",
+      "details": "Details"
+    }
+  },
+  
+  "details": {
+    "loading": "Loading...",
+    "not_found": "Trip not found",
+    "description_title": "Description",
+    "availability_title": "Availability",
+    "no_slots": "No available slots.",
+    "transport_type": "Type:",
+    "departure": "Departure",
+    "return": "Return",
+    "places": "Places:",
+    "select": "Select",
+    "sidebar": {
+      "title": "Booking",
+      "date_label": "Departure Date",
+      "days_label": "Number of days",
+      "people_label": "Number of people",
+      "check_btn": "Check Availability",
+      "checking": "Searching..."
+    },
+    "modal": {
+      "title": "Finalize Booking",
+      "trip": "Trip:",
+      "date": "Date:",
+      "people_count": "Number of people:",
+      "total": "Total:",
+      "confirm_btn": "Confirm Reservation",
+      "processing": "Processing..."
+    },
+    "alerts": {
+      "login_required_title": "Login Required",
+      "login_required_text": "Please log in to book this trip.",
+      "login_confirm": "Log In",
+      "login_cancel": "Later",
+      "success_title": "Congratulations!",
+      "success_text": "Your reservation has been successfully registered. Our team will contact you soon.",
+      "error_title": "Error",
+      "error_text": "An error occurred during the booking. Please try again."
+    }
+  },
+  
+  "entreprise": {
+    "hero": {
+      "badge": "Corporate",
+      "title": "Full Management"
+    },
+    "form": {
+      "title": "Request Form",
+      "nom": "Last Name",
+      "prenom": "First Name",
+      "company": "Company",
+      "activity": "Field of Activity",
+      "email": "Email",
+      "phone": "Phone",
+      "event_date": "Event Date",
+      "days_count": "Number of Days",
+      "transport_q": "Would you like to include bus transport?",
+      "yes": "Yes",
+      "no": "No",
+      "details": "More Details",
+      "details_placeholder": "Specific needs, desired types of activities...",
+      "btn_send": "Send my Request",
+      "sending": "Sending..."
+    },
+    "alerts": {
+      "success_title": "Request Sent!",
+      "success_text": "Your corporate quote request has been received. We will get back to you very soon.",
+      "error_title": "Error",
+      "error_text": "An error occurred during sending. Please check your information or try again later."
+    }
+  },
+  
+  "vp": {
+    "steps": {
+      "progress": "Step {{current}} of {{total}}",
+      "step1_title": "Where do you dream of going?",
+      "step1_placeholder": "Paris, Bali, New York...",
+      "step2_title": "How many travelers?",
+      "step3_title": "Budget per person (DZD)",
+      "step4_title": "When do you want to leave?",
+      "btn_prev": "Previous",
+      "btn_next": "Next",
+      "btn_submit": "Finalize my request 🎉",
+      "sending": "Sending..."
+    },
+    "confirmation": {
+      "title": "Congratulations! 🎉",
+      "message": "Request sent successfully!",
+      "summary_title": "Summary:",
+      "dest": "Destination:",
+      "pax": "Travelers:",
+      "budget": "Budget:",
+      "date": "Date:",
+      "btn_home": "Home",
+      "btn_new": "New Request"
+    },
+    "alerts": {
+      "required_title": "Field Required",
+      "required_text": "Please fill in the information before continuing.",
+      "login_required_title": "Login Required",
+      "login_required_text": "You must be logged in to send a personalized request.",
+      "login_confirm": "Log In",
+      "login_cancel": "Later",
+      "success_title": "Request Sent!",
+      "success_text": "Your travel project has been successfully saved.",
+      "error_title": "Error",
+      "error_forbidden": "Session expired, please log in again.",
+      "error_generic": "An error occurred during sending."
+    }
+  },
+  
+  "register": {
+    "title": "Create an Account",
+    "subtitle": "Join Village de Voyage and book your dreams",
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "placeholders": {
+        "email": "your@email.com",
+        "phone": "0755555555"
+      }
+    },
+    "buttons": {
+      "submit": "Sign Up",
+      "loading": "Creating account...",
+      "google": "Continue with Google"
+    },
+    "errors": {
+      "match": "Passwords do not match",
+      "generic": "An error occurred during registration.",
+      "email_taken": "This email is already taken."
+    },
+    "success": "Registration successful!",
+    "footer": {
+      "text": "Already have an account?",
+      "link": "Log In"
+    },
+    "separator": "or"
+  },
+  
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Log in to your Village de Voyage account",
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "placeholder_email": "your@email.com"
+    },
+    "forgot_link": "Forgot password?",
+    "buttons": {
+      "submit": "Log In",
+      "loading": "Connecting...",
+      "google": "Continue with Google"
+    },
+    "separator": "or",
+    "footer": {
+      "text": "No account?",
+      "link": "Sign Up"
+    },
+    "errors": {
+      "invalid": "Invalid email or password.",
+      "generic": "An error occurred.",
+      "reset_error": "Error while sending the email."
+    },
+    "modal": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email to receive a reset link",
+      "btn_cancel": "Cancel",
+      "btn_send": "Send",
+      "success_alert": "A reset link has been sent to {{email}}"
+    }
+  },
+  
+  "complete": {
+    "title": "Last Step!",
+    "subtitle": "Nice to see you, <strong>{{name}}</strong>. Add your phone number to finalize your bookings.",
+    "fields": {
+      "email": "Email",
+      "phone": "Phone Number",
+      "phone_placeholder": "+213 5XX XX XX XX"
+    },
+    "buttons": {
+      "submit": "Complete Registration",
+      "loading": "Saving..."
+    },
+    "alerts": {
+      "invalid_title": "Invalid Number",
+      "invalid_text": "Please enter a valid phone number.",
+      "success_title": "Profile Completed!",
+      "success_text": "Welcome to the community, {{name}}.",
+      "error_title": "Error",
+      "error_text": "Could not save your information. Please try again."
+    }
   }
+
+
+
+
+
+
+
+
 }

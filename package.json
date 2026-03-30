@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@strapi/provider-email-nodemailer": "^5.40.0",
     "axios": "^1.13.6",
     "gsap": "^3.14.1",
     "i18next": "^25.8.11",

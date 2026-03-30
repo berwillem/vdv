@@ -241,3 +241,12 @@
     margin: 3rem auto 2rem;
   }
 }
+[dir="rtl"] .tab-indicator {
+left: auto;
+right: 0;
+}
+
+/* En RTL, pour aller vers le 2ème onglet (B2B), on glisse vers la GAUCHE */
+[dir="rtl"] .tab-indicator.b2b {
+    transform: translateX(-100%) !important;
+}
