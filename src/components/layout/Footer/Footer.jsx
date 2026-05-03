@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaTwitter } from "react-icons/fa";
 import "./Footer.css";
 import Background from "../../../assets/images/Herobackground.jpg";
 
@@ -31,6 +32,13 @@ export default function Footer() {
               <span>Village</span> Des Voyages
             </div>
             <p>{t("footer.brand_desc")}</p>
+            <div className="footer-socials">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-social-link"><FaFacebook /></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-social-link"><FaInstagram /></a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="footer-social-link"><FaTwitter /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer-social-link"><FaLinkedin /></a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer-social-link"><FaYoutube /></a>
+            </div>
           </div>
 
           {/* Support */}

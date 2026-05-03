@@ -109,6 +109,33 @@
   font-size: 0.95rem;
 }
 
+/* Footer social icons */
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.footer-social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-social-link:hover {
+  background: #151936;
+  color: white;
+  transform: translateY(-3px);
+}
+
 .footer-column h4 {
   font-size: 1.2rem;
   font-weight: 700;

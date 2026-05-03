@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaTwitter } from "react-icons/fa";
 import "./Contact.css";
 import { PostContactB2B, PostContactB2C } from "../../services/contact";
 
@@ -147,6 +148,16 @@ const Contact = () => {
 
         <div className="info-wrapper">
           <h2 className="info-title">{t("contact.info.title")}</h2>
+
+          <div className="info-map">
+            <iframe
+              title="Localisation Village des Voyages"
+              src="https://maps.google.com/maps?q=Cheraga,Alger,Algeria&output=embed"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+
           <div className="info-cards">
             <div className="info-card">
               <h3>{t("contact.info.address")}</h3>
@@ -163,6 +174,17 @@ const Contact = () => {
             <div className="info-card">
               <h3>{t("contact.info.hours")}</h3>
               <p>{t("contact.info.hours_val")}<br />{t("footer.company.saturday", "Samedi : 09h00 - 13h00")}</p>
+            </div>
+          </div>
+
+          <div className="contact-socials">
+            <h3 className="socials-title">Suivez-nous</h3>
+            <div className="socials-row">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link facebook"><FaFacebook /></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link instagram"><FaInstagram /></a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-link twitter"><FaTwitter /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link linkedin"><FaLinkedin /></a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-link youtube"><FaYoutube /></a>
             </div>
           </div>
         </div>

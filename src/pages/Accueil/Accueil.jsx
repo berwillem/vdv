@@ -7,13 +7,60 @@ import "./Accueil.css";
 
 // ASSETS
 import Discount from "../../assets/images/discount.png";
-import HeroV from "../../assets/images/HeroV.mp4";
+import HeroImg from "../../assets/images/Hero.jpg";
+import HeroBg from "../../assets/images/Herobackground.jpg";
 
 // SERVICES
 import { GetVoyage2 } from "../../services/voyages";
 import { Perso } from "../../services/perso";
 
 const STRAPI_URL = "http://localhost:1337";
+
+const SLIDES = [
+  HeroImg,
+  "https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&w=1600",
+  HeroBg,
+  "https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&w=1600",
+];
+
+const TESTIMONIALS = [
+  {
+    name: "Sophie M.",
+    location: "Paris, France",
+    avatar: "SM",
+    rating: 5,
+    text: "Un voyage absolument inoubliable ! L'équipe a tout organisé à la perfection, des hôtels aux excursions. Je recommande Village des Voyages les yeux fermés.",
+  },
+  {
+    name: "Karim B.",
+    location: "Lyon, France",
+    avatar: "KB",
+    rating: 5,
+    text: "Service impeccable du début à la fin. Notre séjour en famille s'est déroulé sans le moindre accroc. Les conseils personnalisés ont fait toute la différence.",
+  },
+  {
+    name: "Amira L.",
+    location: "Marseille, France",
+    avatar: "AL",
+    rating: 5,
+    text: "J'ai demandé un voyage sur mesure et ils ont dépassé toutes mes attentes. Un professionnalisme rare et une attention aux détails remarquable.",
+  },
+  {
+    name: "Thomas R.",
+    location: "Bordeaux, France",
+    avatar: "TR",
+    rating: 5,
+    text: "Deuxième voyage avec eux et toujours autant de satisfaction. Le rapport qualité-prix est excellent et l'équipe est toujours disponible et à l'écoute.",
+  },
+];
+
+const StarRating = ({ count }) => (
+  <div className="testimonial-stars">
+    {Array.from({ length: count }).map((_, i) => (
+      <span key={i}>★</span>
+    ))}
+  </div>
+);
 
 const FAQItem = ({ question, answer, isOpen, onToggle }) => (
   <div className={`faq-item ${isOpen ? "open" : ""}`}>
@@ -49,10 +96,19 @@ const Accueil = () => {
     budget: ""
   });
 
+  const [activeSlide, setActiveSlide] = useState(0);
+
   const faqs = t("home.faq.items", { returnObjects: true }) || [];
 
   useEffect(() => {
     fetchVoyages(1);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
 
   const fetchVoyages = (pageNum) => {
@@ -107,7 +163,7 @@ const Accueil = () => {
         timer: 3500
       });
       setFormData({ Destination: "", nbr: 1, date: "", budget: "" });
-    } catch (err) {
+    } catch {
       Swal.fire({
         icon: "error",
         title: t("home.alerts.error_title"),
@@ -122,52 +178,74 @@ const Accueil = () => {
   return (
     <div className="accueil-page">
       <section className="hero-form-section">
-        <div className="hero-wrapper">
-          <video src={HeroV} className="hero-bg" autoPlay loop muted playsInline></video>
+        <div className="hero-bg-wrapper">
+          {/* Slides */}
+          {SLIDES.map((src, i) => (
+            <div
+              key={i}
+              className={`hero-slide ${i === activeSlide ? "active" : ""}`}
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+          <div className="hero-overlay" />
+
+          {/* Texte centré */}
+          <div className="hero-text-content">
+            <span className="hero-badge-pill">travel more, worry less</span>
+            <h1 className="hero-headline">{t("home.hero.title")}</h1>
+          </div>
+
+          {/* Carte blanche en bas du fond */}
           <div className="form-card">
-            <h2 className="form-title">{t("home.hero.title")}</h2>
-            <form className="custom-form" onSubmit={handlePersoSubmit}>
-              <div className="form-row">
-                <div className="input-wrapper">
+            <h2 className="form-card-title">{t("home.hero.title")}</h2>
+            <form onSubmit={handlePersoSubmit}>
+              <div className="hero-form-row">
+                <div className="hero-field">
                   <label>{t("home.hero.dest_label")}</label>
-                  <div className="input-with-icon">
-                    <MapPin size={18} />
-                    <input 
-                      type="text" placeholder={t("home.hero.dest_placeholder")} value={formData.Destination}
-                      onChange={(e) => setFormData({...formData, Destination: e.target.value})} required
-                    />
+                  <div className="hero-input-wrap">
+                    <MapPin size={16} />
+                    <input type="text" placeholder={t("home.hero.dest_placeholder")} value={formData.Destination} onChange={(e) => setFormData({ ...formData, Destination: e.target.value })} required />
                   </div>
                 </div>
-                <div className="input-wrapper">
+                <div className="hero-field">
                   <label>{t("home.hero.pax_label")}</label>
-                  <div className="input-with-icon">
-                    <Users size={18} />
-                    <input type="number" min="1" value={formData.nbr} onChange={(e) => setFormData({...formData, nbr: e.target.value})} />
+                  <div className="hero-input-wrap">
+                    <Users size={16} />
+                    <input type="number" min="1" value={formData.nbr} onChange={(e) => setFormData({ ...formData, nbr: e.target.value })} />
                   </div>
                 </div>
-                <div className="input-wrapper">
+                <div className="hero-field">
                   <label>{t("home.hero.date_label")}</label>
-                  <div className="input-with-icon">
-                    <Calendar size={18} />
-                    <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} />
+                  <div className="hero-input-wrap">
+                    <Calendar size={16} />
+                    <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
                   </div>
                 </div>
               </div>
-              <div className="form-row budget-row">
-                <div className="input-wrapper">
+              <div className="hero-form-row hero-form-row2">
+                <div className="hero-field">
                   <label>{t("home.hero.budget_label")}</label>
-                  <div className="input-with-icon">
-                    <Euro size={18} />
-                    <input type="number" placeholder="DZD" value={formData.budget} onChange={(e) => setFormData({...formData, budget: e.target.value})} />
+                  <div className="hero-input-wrap">
+                    <Euro size={16} />
+                    <input type="number" placeholder="DZD" value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} />
                   </div>
                 </div>
-                <div className="submit-wrapper">
-                  <button type="submit" className="submit-button" disabled={isSubmitting}>
-                    {isSubmitting ? t("home.hero.btn_loading") : t("home.hero.btn_send")}
-                  </button>
-                </div>
+                <button type="submit" className="hero-submit" disabled={isSubmitting}>
+                  {isSubmitting ? t("home.hero.btn_loading") : t("home.hero.btn_send")}
+                </button>
               </div>
             </form>
+          </div>
+
+          {/* Dots navigation */}
+          <div className="slide-dots">
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                className={`slide-dot ${i === activeSlide ? "active" : ""}`}
+                onClick={() => setActiveSlide(i)}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -215,6 +293,30 @@ const Accueil = () => {
           </div>
           <div className="family-image-wrapper">
             <img src={Discount} alt="Promo" className="family-image" />
+          </div>
+        </div>
+      </section>
+
+      <section className="testimonials-section">
+        <div className="testimonials-container">
+          <div className="testimonials-header">
+            <span className="section-badge">Témoignages</span>
+            <h2 className="section-title">Ce que disent nos voyageurs</h2>
+          </div>
+          <div className="testimonials-grid">
+            {TESTIMONIALS.map((t, i) => (
+              <div className="testimonial-card" key={i}>
+                <StarRating count={t.rating} />
+                <p className="testimonial-text">"{t.text}"</p>
+                <div className="testimonial-author">
+                  <div className="testimonial-avatar">{t.avatar}</div>
+                  <div>
+                    <span className="testimonial-name">{t.name}</span>
+                    <span className="testimonial-location">{t.location}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
