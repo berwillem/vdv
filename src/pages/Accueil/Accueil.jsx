@@ -25,32 +25,32 @@ const SLIDES = [
 
 const TESTIMONIALS = [
   {
-    name: "Sophie M.",
-    location: "Paris, France",
-    avatar: "SM",
+    name: "Anais Tifoudine",
+    location: "Egypte",
+    avatar: "AT",
     rating: 5,
-    text: "Un voyage absolument inoubliable ! L'équipe a tout organisé à la perfection, des hôtels aux excursions. Je recommande Village des Voyages les yeux fermés.",
+    text: "Bonjour,❤️ Je tiens à vous remercier du fond du cœur pour les merveilleux moments que j’ai pu vivre grâce à vos services. Chaque voyage organisé avec vous a été une expérience unique, pleine de découvertes, de détente et de souvenirs inoubliables. Votre professionnalisme, votre disponibilité et votre attention aux détails font vraiment la différence. Hâte de repartir bientôt à vos côtés pour de nouvelles aventures 🙏",
   },
   {
-    name: "Karim B.",
-    location: "Lyon, France",
-    avatar: "KB",
+    name: "imane Ouahib",
+    location: "Ghradaia, Algerie",
+    avatar: "IO",
     rating: 5,
-    text: "Service impeccable du début à la fin. Notre séjour en famille s'est déroulé sans le moindre accroc. Les conseils personnalisés ont fait toute la différence.",
+    text: "Service exceptionnel ! Organisation soignée et prestations de grande qualité. Je recommande cette agence pour une expérience de voyage mémorable ❤️",
   },
   {
-    name: "Amira L.",
-    location: "Marseille, France",
-    avatar: "AL",
+    name: "Amel ben",
+    location: "Algerie",
+    avatar: "AB",
     rating: 5,
-    text: "J'ai demandé un voyage sur mesure et ils ont dépassé toutes mes attentes. Un professionnalisme rare et une attention aux détails remarquable.",
+    text: "Bonjour à toute l’équipe, Un grand merci pour votre accompagnement et votre disponibilité. Mon voyage a été une réussite du début à la fin, et c’est en grande partie grâce à vous. Je garderai de très beaux souvenirs et je penserai à vous pour mes prochaines aventures ",
   },
   {
-    name: "Thomas R.",
-    location: "Bordeaux, France",
-    avatar: "TR",
+    name: "Nadia Saidj",
+    location: "Istanbul, Turquie",
+    avatar: "NS",
     rating: 5,
-    text: "Deuxième voyage avec eux et toujours autant de satisfaction. Le rapport qualité-prix est excellent et l'équipe est toujours disponible et à l'écoute.",
+    text: "Je tiens à remercier l'agence VILLAGE DES VOYAGES pour son professionnalisme et sa gentillesse des les premiers échanges. Tout a été clair et bien expliqué, aussi bien avant le départ ,que pendant le voyage , prise en charge impeccables aux aéroports d'Alger et Istanbul ,ou lors des transports. L'hôtel choisi propre et confortable, idéalement situé à proximité des transports . excellent petit déjeuner...",
   },
 ];
 
