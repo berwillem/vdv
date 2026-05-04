@@ -14,7 +14,8 @@ import HeroBg from "../../assets/images/Herobackground.jpg";
 import { GetVoyage2 } from "../../services/voyages";
 import { Perso } from "../../services/perso";
 
-const STRAPI_URL = "http://109.123.253.96:84";
+const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com
+";
 
 const SLIDES = [
   HeroImg,

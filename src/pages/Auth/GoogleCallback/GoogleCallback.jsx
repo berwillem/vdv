@@ -15,7 +15,8 @@ const GoogleCallback = () => {
       // 2. Appeler Strapi pour valider ce token
       // C'est cet appel qui crée le compte dans Strapi s'il est nouveau
       axios
-        .get(`http://109.123.253.96:84/api/auth/google/callback?access_token=${accessToken}`)
+        .get(`https://trio-each-helicopter-feeling.trycloudflare.com
+/api/auth/google/callback?access_token=${accessToken}`)
         .then((res) => {
           // Strapi renvoie : { jwt: "...", user: {...} }
           const { jwt, user } = res.data;

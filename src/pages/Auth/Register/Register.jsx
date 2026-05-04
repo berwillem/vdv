@@ -43,7 +43,8 @@ const Register = () => {
 
     try {
       // ÉTAPE 1 : Inscription
-      const registerResponse = await axios.post("http://109.123.253.96:84/api/auth/local/register", {
+      const registerResponse = await axios.post("https://trio-each-helicopter-feeling.trycloudflare.com
+/api/auth/local/register", {
         username: email.toLowerCase().trim(),
         email: email.toLowerCase().trim(),
         password: password,
@@ -53,7 +54,8 @@ const Register = () => {
 
       // ÉTAPE 2 : Mise à jour du champ 'phone'
       await axios.put(
-        `http://109.123.253.96:84/api/users/${user.id}`,
+        `https://trio-each-helicopter-feeling.trycloudflare.com
+/api/users/${user.id}`,
         { phone: String(phone).trim() },
         {
           headers: {
@@ -81,7 +83,8 @@ const Register = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://109.123.253.96:84/api/connect/google";
+    window.location.href = "https://trio-each-helicopter-feeling.trycloudflare.com
+/api/connect/google";
   };
 
   return (

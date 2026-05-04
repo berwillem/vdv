@@ -6,7 +6,8 @@ import axios from "axios";
 import "./SignIn.css";
 import { FcGoogle } from "react-icons/fc";
 
-  const STRAPI_URL = "http://109.123.253.96:84";
+  const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com
+";
 
 const Login = () => {
   const { t } = useTranslation();
