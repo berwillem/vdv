@@ -6,6 +6,8 @@ import axios from "axios";
 import "./SignIn.css";
 import { FcGoogle } from "react-icons/fc";
 
+  const STRAPI_URL = "http://109.123.253.96:84";
+
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:1337/api/auth/local", {
+      const response = await axios.post(`${STRAPI_URL}/api/auth/local`, {
         identifier: identifier,
         password: password,
       });
@@ -47,19 +49,19 @@ const Login = () => {
   const handleForgotSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:1337/api/auth/forgot-password", {
+      await axios.post(`${STRAPI_URL}/api/auth/forgot-password`, {
         email: resetEmail,
       });
       alert(t("login.modal.success_alert", { email: resetEmail }));
       setShowForgot(false);
       setResetEmail("");
-    } catch (err) {
+    } catch {
       alert(t("login.errors.reset_error"));
     }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:1337/api/connect/google";
+    window.location.href = `${STRAPI_URL}/api/connect/google`;
   };
 
   return (

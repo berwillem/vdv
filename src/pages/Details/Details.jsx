@@ -23,9 +23,10 @@ const Details = () => {
   const [inputDate, setInputDate] = useState("");
   const [inputDays, setInputDays] = useState("");
   const [inputPeople, setInputPeople] = useState("");
+  const [activeImg, setActiveImg] = useState(0);
   const [activeFilters, setActiveFilters] = useState({ date: "", days: "", people: "" });
 
-  const STRAPI_URL = "http://localhost:1337";
+  const STRAPI_URL = "http://109.123.253.96:84";
 
   useEffect(() => {
     GetVoyageById(id)
@@ -176,9 +177,22 @@ const Details = () => {
         <div className="content-main">
           <img
             className="main-image"
-            src={voyage.image?.[0] ? `${STRAPI_URL}${voyage.image[0].url}` : "https://via.placeholder.com/800"}
+            src={voyage.image?.[activeImg] ? `${STRAPI_URL}${voyage.image[activeImg].url}` : "https://via.placeholder.com/800"}
             alt={voyage.name}
           />
+          {voyage.image?.length > 1 && (
+            <div className="thumbnail-grid">
+              {voyage.image.map((img, i) => (
+                <img
+                  key={i}
+                  src={`${STRAPI_URL}${img.url}`}
+                  alt={`${voyage.name} ${i + 1}`}
+                  onClick={() => setActiveImg(i)}
+                  style={{ opacity: activeImg === i ? 1 : 0.55, border: activeImg === i ? "2px solid #151936" : "2px solid transparent" }}
+                />
+              ))}
+            </div>
+          )}
           <section className="description">
             <h2>{t("details.description_title")}</h2>
             <p>{voyage.description}</p>

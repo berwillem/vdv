@@ -14,7 +14,7 @@ import HeroBg from "../../assets/images/Herobackground.jpg";
 import { GetVoyage2 } from "../../services/voyages";
 import { Perso } from "../../services/perso";
 
-const STRAPI_URL = "http://localhost:1337";
+const STRAPI_URL = "http://109.123.253.96:84";
 
 const SLIDES = [
   HeroImg,
