@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import "./Accueil.css";
 
 // ASSETS
-import Discount from "../../assets/images/discount.png";
+import Discount from "../../assets/images/Discount.png";
 import HeroImg from "../../assets/images/Hero.jpg";
 import HeroBg from "../../assets/images/Herobackground.jpg";
 
