@@ -8,7 +8,7 @@ import {
   HiUser  
 } from "react-icons/hi";
 import { NavLink, Link } from "react-router-dom"; // Ajout de useNavigate
-import LOGO from "../../../assets/logo.png";
+import LOGO from "../../../assets/LOGO.png";
 import "./Navbar.css";
 
 const Navbar = () => {
