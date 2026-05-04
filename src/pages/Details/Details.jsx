@@ -26,8 +26,7 @@ const Details = () => {
   const [activeImg, setActiveImg] = useState(0);
   const [activeFilters, setActiveFilters] = useState({ date: "", days: "", people: "" });
 
-  const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com
-";
+  const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com";
 
   useEffect(() => {
     GetVoyageById(id)

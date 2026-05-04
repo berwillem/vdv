@@ -17,8 +17,7 @@ import {
 import { Link } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_LINK;
-  const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com
-";
+  const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com";
 
 const RangeFilter = ({ label, icon, value, setValue, min, max, step = 1, formatValue }) => (
   <div className="filter-group">
