@@ -17,10 +17,15 @@ import { Perso } from "../../services/perso";
 const STRAPI_URL = "https://purple-womens-widely-subjects.trycloudflare.com";
 
 const SLIDES = [
-  HeroImg,
-  "https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg?auto=compress&w=1600",
-  HeroBg,
-  "https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?auto=compress&w=1600",
+  { image: "https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&w=1600",  country: "Égypte",      tagline: "Sur les traces des pharaons, entre histoire éternelle et Nil majestueux." },
+  { image: "https://images.pexels.com/photos/236294/pexels-photo-236294.jpeg?auto=compress&w=1600", country: "Russie",      tagline: "De Moscou à Saint-Pétersbourg, une épopée impériale sans fin." },
+  { image: HeroImg,                                                                                   country: "Djanet",      tagline: "Le Sahara dans sa pureté absolue, entre dunes et art rupestre." },
+  { image: "https://images.pexels.com/photos/2174656/pexels-photo-2174656.jpeg?auto=compress&w=1600",country: "Vietnam",     tagline: "Des rizières aux baies mythiques, un voyage d'émotions infinies." },
+  { image: HeroBg,                                                                                    country: "Timimoun",    tagline: "L'oasis rouge du désert, un mirage vivant au cœur du Sahara." },
+  { image: "https://images.pexels.com/photos/3886285/pexels-photo-3886285.jpeg?auto=compress&w=1600",country: "Azerbaïdjan", tagline: "Entre feu et modernité, la perle du Caucase inattendue." },
+  { image: "https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&w=1600",country: "Maldives",    tagline: "Le paradis sur eau turquoise, luxe et sérénité à l'infini." },
+  { image: "https://images.pexels.com/photos/931018/pexels-photo-931018.jpeg?auto=compress&w=1600",  country: "Bali",        tagline: "Slow life, vibes tropicales et énergie spirituelle." },
+  { image: "https://images.pexels.com/photos/2197310/pexels-photo-2197310.jpeg?auto=compress&w=1600",country: "Malaisie",    tagline: "L'Asie moderne, vibrante et multiculturelle." },
 ];
 
 const TESTIMONIALS = [
@@ -180,24 +185,30 @@ const Accueil = () => {
       <section className="hero-form-section">
         <div className="hero-bg-wrapper">
           {/* Slides */}
-          {SLIDES.map((src, i) => (
+          {SLIDES.map((slide, i) => (
             <div
               key={i}
               className={`hero-slide ${i === activeSlide ? "active" : ""}`}
-              style={{ backgroundImage: `url(${src})` }}
+              style={{ backgroundImage: `url(${slide.image})` }}
             />
           ))}
           <div className="hero-overlay" />
 
           {/* Texte centré */}
           <div className="hero-text-content">
-            <span className="hero-badge-pill">travel more, worry less</span>
-            <h1 className="hero-headline">{t("home.hero.title")}</h1>
+            <div key={activeSlide} className="hero-text-inner">
+              <span className="hero-badge-pill">Voyage Organisé</span>
+              <h1 className="hero-headline">{SLIDES[activeSlide].country}</h1>
+              <p className="hero-tagline">{SLIDES[activeSlide].tagline}</p>
+            </div>
           </div>
 
           {/* Carte blanche en bas du fond */}
           <div className="form-card">
-            <h2 className="form-card-title">{t("home.hero.title")}</h2>
+            <div className="form-card-header">
+              <h2 className="form-card-title">{t("home.hero.title")}</h2>
+           
+            </div>
             <form onSubmit={handlePersoSubmit}>
               <div className="hero-form-row">
                 <div className="hero-field">

@@ -175,6 +175,7 @@
   "home": {
     "hero": {
       "title": "Voyage personnalisé",
+      "form_subtitle": "Décrivez votre voyage idéal, nos conseillers s'occupent du reste.",
       "dest_label": "Destination",
       "dest_placeholder": "Où ?",
       "pax_label": "Personnes",

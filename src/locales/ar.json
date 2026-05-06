@@ -175,6 +175,7 @@
   "home": {
     "hero": {
       "title": "رحلة مخصصة",
+      "form_subtitle": "صِف رحلتك المثالية، مستشارونا يتولون الباقي.",
       "dest_label": "الوجهة",
       "dest_placeholder": "إلى أين؟",
       "pax_label": "الأشخاص",

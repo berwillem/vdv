@@ -175,6 +175,7 @@
   "home": {
     "hero": {
       "title": "Custom Trip",
+      "form_subtitle": "Describe your ideal trip, our advisors take care of the rest.",
       "dest_label": "Destination",
       "dest_placeholder": "Where?",
       "pax_label": "People",
