@@ -218,12 +218,12 @@
   .hero-text-content { top: 20%; }
   .form-card {
     
-    padding: 22px 18px;
+    padding: 18px 18px;
     width: calc(100% - 32px);
     border-radius: 18px;
   }
-  .hero-form-row       { grid-template-columns: 1fr; margin-bottom: 12px; }
-  .hero-form-row2      { flex-direction: column; align-items: stretch; }
+  .hero-form-row       { grid-template-columns: 1fr; margin-bottom: 10px; gap:10px }
+  .hero-form-row2      { flex-direction: column; align-items: stretch; gap:10px}
   .hero-form-row2 .hero-field { width: 100%; }
   .hero-submit         { margin-left: 0; width: 100%; border-radius: 12px; }
 }
