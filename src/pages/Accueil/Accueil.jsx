@@ -7,8 +7,6 @@ import "./Accueil.css";
 
 // ASSETS
 import Discount from "../../assets/images/Discount.png";
-import HeroImg from "../../assets/images/Hero.jpg";
-import HeroBg from "../../assets/images/Herobackground.jpg";
 
 // SERVICES
 import { GetVoyage2 } from "../../services/voyages";
@@ -19,13 +17,13 @@ const STRAPI_URL = "https://purple-womens-widely-subjects.trycloudflare.com";
 const SLIDES = [
   { image: "https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&w=1600",  country: "Égypte",      tagline: "Sur les traces des pharaons, entre histoire éternelle et Nil majestueux." },
   { image: "https://images.pexels.com/photos/236294/pexels-photo-236294.jpeg?auto=compress&w=1600", country: "Russie",      tagline: "De Moscou à Saint-Pétersbourg, une épopée impériale sans fin." },
-  { image: HeroImg,                                                                                   country: "Djanet",      tagline: "Le Sahara dans sa pureté absolue, entre dunes et art rupestre." },
-  { image: "https://images.pexels.com/photos/2174656/pexels-photo-2174656.jpeg?auto=compress&w=1600",country: "Vietnam",     tagline: "Des rizières aux baies mythiques, un voyage d'émotions infinies." },
-  { image: HeroBg,                                                                                    country: "Timimoun",    tagline: "L'oasis rouge du désert, un mirage vivant au cœur du Sahara." },
-  { image: "https://images.pexels.com/photos/3886285/pexels-photo-3886285.jpeg?auto=compress&w=1600",country: "Azerbaïdjan", tagline: "Entre feu et modernité, la perle du Caucase inattendue." },
+  { image: "https://images.pexels.com/photos/11974783/pexels-photo-11974783.jpeg?auto=compress&w=1600", country: "Djanet",      tagline: "Le Sahara dans sa pureté absolue, entre dunes et art rupestre." },
+  { image: "https://images.pexels.com/photos/2174656/pexels-photo-2174656.jpeg?auto=compress&w=1600",  country: "Vietnam",     tagline: "Des rizières aux baies mythiques, un voyage d'émotions infinies." },
+  { image: "https://images.pexels.com/photos/9336144/pexels-photo-9336144.jpeg?auto=compress&w=1600",  country: "Timimoun",    tagline: "L'oasis rouge du désert, un mirage vivant au cœur du Sahara." },
+  { image: "https://images.pexels.com/photos/186457/pexels-photo-186457.jpeg?auto=compress&w=1600",    country: "Azerbaïdjan", tagline: "Entre feu et modernité, la perle du Caucase inattendue." },
   { image: "https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&w=1600",country: "Maldives",    tagline: "Le paradis sur eau turquoise, luxe et sérénité à l'infini." },
   { image: "https://images.pexels.com/photos/931018/pexels-photo-931018.jpeg?auto=compress&w=1600",  country: "Bali",        tagline: "Slow life, vibes tropicales et énergie spirituelle." },
-  { image: "https://images.pexels.com/photos/2197310/pexels-photo-2197310.jpeg?auto=compress&w=1600",country: "Malaisie",    tagline: "L'Asie moderne, vibrante et multiculturelle." },
+  { image: "https://images.pexels.com/photos/27118625/pexels-photo-27118625.jpeg?auto=compress&w=1600", country: "Malaisie",    tagline: "L'Asie moderne, vibrante et multiculturelle." },
 ];
 
 const TESTIMONIALS = [

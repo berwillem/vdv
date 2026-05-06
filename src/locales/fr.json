@@ -277,8 +277,14 @@
   "entreprise": {
     "hero": {
       "badge": "Entreprise",
-      "title": "Encadrement complet"
+      "title": "Encadrement complet",
+      "subtitle": "Des solutions de voyage clé en main pour vos équipes et événements professionnels."
     },
+    "services": [
+      { "icon": "🏢", "title": "Séminaires & Conférences", "desc": "Organisation complète de vos séminaires, réunions d'entreprise et événements professionnels." },
+      { "icon": "🚌", "title": "Transport inclus", "desc": "Bus panoramiques confortables pour tous vos déplacements, disponibles selon vos besoins." },
+      { "icon": "🌍", "title": "Team Building", "desc": "Des expériences uniques pour renforcer la cohésion de vos équipes à travers le voyage." }
+    ],
     "form": {
       "title": "Formulaire de demande",
       "nom": "Nom",

@@ -277,8 +277,14 @@
   "entreprise": {
     "hero": {
       "badge": "Corporate",
-      "title": "Full Management"
+      "title": "Full Management",
+      "subtitle": "Turnkey travel solutions for your teams and corporate events."
     },
+    "services": [
+      { "icon": "🏢", "title": "Seminars & Conferences", "desc": "Complete organization of your seminars, corporate meetings and professional events." },
+      { "icon": "🚌", "title": "Transport Included", "desc": "Comfortable panoramic buses for all your travel needs, available on demand." },
+      { "icon": "🌍", "title": "Team Building", "desc": "Unique experiences to strengthen team cohesion through travel and adventure." }
+    ],
     "form": {
       "title": "Request Form",
       "nom": "Last Name",

@@ -64,20 +64,27 @@ const Entreprise = () => {
     }
   };
 
+  const services = t("entreprise.services", { returnObjects: true }) || [];
+
   return (
     <div className="entreprise-page">
-      <div className="entreprise-hero"></div>
-      <div className="entreprise-label">
-        <div className="badge">{t("entreprise.hero.badge")}</div>
-        <h1 className="hero-title">{t("entreprise.hero.title")}</h1>
+      <div className="entreprise-hero">
+        <div className="hero-overlay" />
+        <div className="entreprise-label">
+          <span className="hero-badge">{t("entreprise.hero.badge")}</span>
+          <h1 className="hero-title">{t("entreprise.hero.title")}</h1>
+          <p className="hero-subtitle">{t("entreprise.hero.subtitle")}</p>
+        </div>
       </div>
 
-      <div className="encadrement-section">
-        <div className="encadrement-grid">
-          <div className="encadrement-block"></div>
-          <div className="encadrement-block"></div>
-          <div className="encadrement-block"></div>
-        </div>
+      <div className="services-section">
+        {services.map((s, i) => (
+          <div className="service-card" key={i}>
+          
+            <h3 className="service-title">{s.title}</h3>
+            <p className="service-desc">{s.desc}</p>
+          </div>
+        ))}
       </div>
 
       <div className="formulaire-section">

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom"; 
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import Swal from "sweetalert2";
 import "./Register.css";
 import { FcGoogle } from "react-icons/fc";
 
@@ -15,6 +16,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -65,7 +68,12 @@ const Register = () => {
       localStorage.setItem("jwt", jwt);
       localStorage.setItem("user", JSON.stringify({ ...user, phone }));
 
-      alert(t("register.success"));
+      await Swal.fire({
+        icon: "success",
+        title: t("register.success"),
+        confirmButtonColor: "#1a1c3d",
+        timer: 3500,
+      });
       navigate("/"); 
     } catch (err) {
       const strapiError = err.response?.data?.error?.message;
@@ -123,25 +131,35 @@ const Register = () => {
 
           <div className="form-group">
             <label>{t("register.fields.password")}</label>
-            <input
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="••••••••"
-              required
-            />
+            <div className="password-wrap">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={handlePasswordChange}
+                placeholder="••••••••"
+                required
+              />
+              <button type="button" className="eye-btn" onClick={() => setShowPassword((v) => !v)} tabIndex={-1}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label>{t("register.fields.confirm_password")}</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              placeholder="••••••••"
-              required
-              className={!passwordMatch ? "input-error" : ""}
-            />
+            <div className="password-wrap">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                placeholder="••••••••"
+                required
+                className={!passwordMatch ? "input-error" : ""}
+              />
+              <button type="button" className="eye-btn" onClick={() => setShowConfirmPassword((v) => !v)} tabIndex={-1}>
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
             {!passwordMatch && (
               <p className="field-error">{t("register.errors.match")}</p>
             )}

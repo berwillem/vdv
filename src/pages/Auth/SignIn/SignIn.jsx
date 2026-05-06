@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import Swal from "sweetalert2";
 import "./SignIn.css";
 import { FcGoogle } from "react-icons/fc";
 
@@ -17,6 +18,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   
+  const [showPassword, setShowPassword] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
 
@@ -52,11 +54,20 @@ const Login = () => {
       await axios.post(`${STRAPI_URL}/api/auth/forgot-password`, {
         email: resetEmail,
       });
-      alert(t("login.modal.success_alert", { email: resetEmail }));
+      Swal.fire({
+        icon: "success",
+        title: t("login.modal.success_alert", { email: resetEmail }),
+        confirmButtonColor: "#1a1c3d",
+        timer: 3500,
+      });
       setShowForgot(false);
       setResetEmail("");
     } catch {
-      alert(t("login.errors.reset_error"));
+      Swal.fire({
+        icon: "error",
+        title: t("login.errors.reset_error"),
+        confirmButtonColor: "#d33",
+      });
     }
   };
 
@@ -92,13 +103,23 @@ const Login = () => {
 
           <div className="form-group">
             <label>{t("login.fields.password")}</label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-wrap">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="eye-btn"
+                onClick={() => setShowPassword((v) => !v)}
+                tabIndex={-1}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           <div className="forgot-link">
