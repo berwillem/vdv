@@ -215,7 +215,7 @@
 @media (max-width: 768px) {
   .hero-bg-wrapper   { height: 100vh; border-radius: 18px; }
   .hero-headline     { font-size: 2.2rem; }
-  .hero-text-content { top: 28%; }
+  .hero-text-content { top: 20%; }
   .form-card {
     
     padding: 22px 18px;
