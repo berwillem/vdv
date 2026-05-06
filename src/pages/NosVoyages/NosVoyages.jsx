@@ -17,7 +17,7 @@ import {
 import { Link } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_LINK;
-  const STRAPI_URL = "https://trio-each-helicopter-feeling.trycloudflare.com";
+ const STRAPI_URL = "https://purple-womens-widely-subjects.trycloudflare.com";
 
 const RangeFilter = ({ label, icon, value, setValue, min, max, step = 1, formatValue }) => (
   <div className="filter-group">
@@ -186,7 +186,7 @@ const NosVoyages = () => {
                 return (
                   <Link to={`/details/${trip.documentId}`} key={trip.id} className="trip-card">
                     <img
-                      src={trip.image?.[0]?.url ? `${STRAPI_URL}${trip.image[0].url}` : "/placeholder.jpg"}
+                     src={trip.image?.[0] ? `${STRAPI_URL}${trip.image[0].url}` : "https://via.placeholder.com/400"} 
                       alt={trip.name}
                       className="trip-image"
                     />
